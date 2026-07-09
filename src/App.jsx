@@ -1,6 +1,8 @@
 // frontend/src/App.jsx
 import { Routes, Route, NavLink, Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
+import { useT } from './i18n/index.jsx';
+import SelecteurLangue from './components/SelecteurLangue.jsx';
 
 // Pages publiques existantes
 import Accueil from './pages/Accueil.jsx';
@@ -24,6 +26,7 @@ import FAQ from './pages/FAQ.jsx';
 import Portail from './portail/Portail.jsx';
 
 function Nav() {
+  const { t } = useT();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -61,23 +64,23 @@ function Nav() {
   }, []);
 
   const mainLinks = [
-    { path: '/', label: 'Accueil' },
-    { path: '/a-propos', label: 'Le Centre' },
-    { path: '/laboratoires', label: 'Laboratoires' },
-    { path: '/analyses', label: 'Analyses' },
-    { path: '/publications', label: 'Publications' },
-    { path: '/contact', label: 'Contact' }
+    { path: '/', label: t('nav.accueil') },
+    { path: '/a-propos', label: t('nav.centre') },
+    { path: '/laboratoires', label: t('nav.laboratoires') },
+    { path: '/analyses', label: t('nav.analyses') },
+    { path: '/publications', label: t('nav.publications') },
+    { path: '/contact', label: t('nav.contact') }
   ];
 
   const secondaryLinks = [
-    { path: '/equipe', label: '👥 Équipe' },
-    { path: '/projets', label: '📋 Projets' },
-    { path: '/partenaires', label: '🤝 Partenaires' },
-    { path: '/carrieres', label: '💼 Carrières' },
-    { path: '/actualites', label: '📰 Actualités' },
-    { path: '/evenements', label: '📅 Événements' },
-    { path: '/galerie', label: '🖼️ Galerie' },
-    { path: '/faq', label: '❓ FAQ' }
+    { path: '/equipe', label: `👥 ${t('nav.equipe')}` },
+    { path: '/projets', label: `📋 ${t('nav.projets')}` },
+    { path: '/partenaires', label: `🤝 ${t('nav.partenaires')}` },
+    { path: '/carrieres', label: `💼 ${t('nav.carrieres')}` },
+    { path: '/actualites', label: `📰 ${t('nav.actualites')}` },
+    { path: '/evenements', label: `📅 ${t('nav.evenements')}` },
+    { path: '/galerie', label: `🖼️ ${t('nav.galerie')}` },
+    { path: '/faq', label: `❓ ${t('nav.faq')}` }
   ];
 
   return (
@@ -154,7 +157,7 @@ function Nav() {
       </Link>
 
       {/* Navigation */}
-      <nav style={{
+      <nav aria-label={t('nav.menuPrincipal')} style={{
         display: 'flex',
         alignItems: 'center',
         gap: '4px',
@@ -214,7 +217,7 @@ function Nav() {
             aria-expanded={dropdownOpen}
             aria-haspopup="true"
           >
-            Plus
+            {t('nav.plus')}
             <span style={{
               display: 'inline-block',
               transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0)',
@@ -283,6 +286,11 @@ function Nav() {
           )}
         </div>
 
+        {/* Sélecteur de langue */}
+        <div style={{ marginLeft: '8px' }}>
+          <SelecteurLangue />
+        </div>
+
         {/* Portail LIMS */}
         <Link
           to="/portail"
@@ -308,7 +316,7 @@ function Nav() {
             e.currentTarget.style.boxShadow = '0 2px 8px rgba(29, 78, 216, 0.25)';
           }}
         >
-          🔐 Portail LIMS
+          🔐 {t('nav.portail')}
         </Link>
       </nav>
 
@@ -324,6 +332,7 @@ function Nav() {
 }
 
 function Pied() {
+  const { t } = useT();
   const lienStyle = {
     color: '#93c5fd',
     textDecoration: 'none',
@@ -364,7 +373,7 @@ function Pied() {
               color: 'rgba(255,255,255,0.7)',
               lineHeight: 1.6
             }}>
-              Centre International d'Études et de Recherche en Environnement pour le Développement
+              {t('pied.description')}
             </p>
             <div style={{ marginTop: '12px', display: 'flex', gap: '12px' }}>
               <a href="#" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '20px', textDecoration: 'none' }}>📘</a>
@@ -377,21 +386,21 @@ function Pied() {
           {/* Colonne 2 - Navigation rapide */}
           <div>
             <h4 style={{ fontSize: '12px', color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
-              Navigation
+              {t('pied.liens')}
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 2 }}>
-              <li><Link to="/" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Accueil</Link></li>
-              <li><Link to="/a-propos" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Le Centre</Link></li>
-              <li><Link to="/laboratoires" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Laboratoires</Link></li>
-              <li><Link to="/analyses" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Analyses</Link></li>
-              <li><Link to="/contact" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Contact</Link></li>
+              <li><Link to="/" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{t('nav.accueil')}</Link></li>
+              <li><Link to="/a-propos" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{t('nav.centre')}</Link></li>
+              <li><Link to="/laboratoires" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{t('nav.laboratoires')}</Link></li>
+              <li><Link to="/analyses" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{t('nav.analyses')}</Link></li>
+              <li><Link to="/contact" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{t('nav.contact')}</Link></li>
             </ul>
           </div>
 
           {/* Colonne 3 - Informations */}
           <div>
             <h4 style={{ fontSize: '12px', color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
-              Coordonnées
+              {t('pied.contactez')}
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
               <li>📍 1, Rue 8417, Messamendongo</li>
@@ -405,7 +414,7 @@ function Pied() {
           {/* Colonne 4 - Laboratoires */}
           <div>
             <h4 style={{ fontSize: '12px', color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
-              Laboratoires
+              {t('nav.laboratoires')}
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
               <li>🔬 <Link to="/laboratoires#icepc" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>ICEPC-LAB</Link></li>
@@ -425,7 +434,7 @@ function Pied() {
               onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
               >
-                🔐 Portail LIMS
+                🔐 {t('nav.portail')}
               </Link>
             </div>
           </div>
@@ -442,13 +451,13 @@ function Pied() {
           fontSize: '12px',
           color: 'rgba(255,255,255,0.4)'
         }}>
-          <span>© {new Date().getFullYear()} ICERD — Tous droits réservés</span>
+          <span>© {new Date().getFullYear()} ICERD — {t('pied.droits')}</span>
           <span>Yaoundé · Cameroun · Afrique Centrale</span>
           <span>
             <a href="#" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', transition: 'color 0.2s ease' }}
                onMouseEnter={(e) => { e.currentTarget.style.color = 'white'; }}
                onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
-            >Mentions légales</a>
+            >{t('pied.mentionsLegales')}</a>
             {' · '}
             <a href="#" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', transition: 'color 0.2s ease' }}
                onMouseEnter={(e) => { e.currentTarget.style.color = 'white'; }}

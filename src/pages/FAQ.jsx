@@ -1,8 +1,10 @@
 // frontend/src/pages/FAQ.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api } from '../api.js';
 
 export default function FAQ() {
+  const { t } = useT();
   const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -94,7 +96,7 @@ export default function FAQ() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Foire aux questions
+              {t('pages.faq.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useT } from '../i18n/index.jsx';
 
 // ============================================================
 // COMPOSANT ICÔNES RÉSEAUX SOCIAUX & INTERFACE
@@ -31,6 +32,7 @@ const ContactIcon = ({ name, size = 18, color = 'currentColor', className = '' }
 };
 
 export default function Contact() {
+  const { t } = useT();
   const [envoye, setEnvoye] = useState(false);
   const [form, setForm] = useState({
     nom: '',
@@ -95,7 +97,7 @@ export default function Contact() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Parlez-nous de votre projet
+              {t('contact.titre')}
             </h1>
             <p style={{
               fontSize: '17px',
@@ -329,7 +331,7 @@ export default function Contact() {
 
                   <div className="grid-responsive-inputs" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div className="champ-lab">
-                      <label>Email *</label>
+                      <label>{t('contact.email')} *</label>
                       <input
                         type="email"
                         name="email"
@@ -340,7 +342,7 @@ export default function Contact() {
                       />
                     </div>
                     <div className="champ-lab">
-                      <label>Téléphone</label>
+                      <label>{t('contact.telephone')}</label>
                       <input
                         type="tel"
                         name="telephone"

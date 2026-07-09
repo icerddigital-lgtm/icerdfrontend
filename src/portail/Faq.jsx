@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '../api.js';
 import Modal from '../components/Modal.jsx';
+import ChampBilingue from '../components/ChampBilingue.jsx';
 
 export default function GestionFaq({ showToast }) {
   const [data, setData] = useState([]);
@@ -10,7 +11,9 @@ export default function GestionFaq({ showToast }) {
   const [modal, setModal] = useState(null);
   const [form, setForm] = useState({
     question: '',
+    question_en: '',
     reponse: '',
+    reponse_en: '',
     categorie: 'Général',
     ordre_affichage: 0
   });
@@ -50,7 +53,7 @@ export default function GestionFaq({ showToast }) {
         showToast('✅ Question créée avec succès', 'success');
       }
       setModal(null);
-      setForm({ question: '', reponse: '', categorie: 'Général', ordre_affichage: 0 });
+      setForm({ question: '', question_en: '', reponse: '', reponse_en: '', categorie: 'Général', ordre_affichage: 0 });
       charger();
     } catch (e) {
       showToast(e.message, 'error');
@@ -120,7 +123,7 @@ export default function GestionFaq({ showToast }) {
         <button 
           className="btn-lab btn-lab--primary" 
           onClick={() => { 
-            setForm({ question: '', reponse: '', categorie: 'Général', ordre_affichage: 0 }); 
+            setForm({ question: '', question_en: '', reponse: '', reponse_en: '', categorie: 'Général', ordre_affichage: 0 }); 
             setModal({}); 
           }}
         >
@@ -259,26 +262,27 @@ export default function GestionFaq({ showToast }) {
           maxWidth="600px"
         >
           <form onSubmit={handleSubmit}>
-            <div className="champ-lab">
-              <label>Question *</label>
-              <input 
-                value={form.question || ''} 
-                onChange={e => setForm({ ...form, question: e.target.value })} 
-                required 
-                placeholder="Ex: Quels types d'analyses proposez-vous ?"
-              />
-            </div>
+            <ChampBilingue
+              label="Question"
+              nom="question"
+              valeurs={form}
+              onChange={setForm}
+              obligatoire
+              placeholder="Ex : Quels types d'analyses proposez-vous ?"
+              placeholderEn="e.g. What types of analysis do you offer?"
+            />
 
-            <div className="champ-lab">
-              <label>Réponse *</label>
-              <textarea 
-                value={form.reponse || ''} 
-                onChange={e => setForm({ ...form, reponse: e.target.value })} 
-                required 
-                rows="4"
-                placeholder="Rédigez la réponse à la question..."
-              />
-            </div>
+            <ChampBilingue
+              label="Réponse"
+              nom="reponse"
+              valeurs={form}
+              onChange={setForm}
+              multiligne
+              lignes={4}
+              obligatoire
+              placeholder="Rédigez la réponse à la question…"
+              placeholderEn="Write the English answer (optional)"
+            />
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div className="champ-lab">

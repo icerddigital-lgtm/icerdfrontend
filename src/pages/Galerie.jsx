@@ -1,5 +1,6 @@
 // frontend/src/pages/Galerie.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api } from '../api.js';
 import Modal from '../components/Modal.jsx';
 
@@ -49,6 +50,7 @@ const Icon = ({ name, size = 20, color = '#1d4ed8' }) => {
 };
 
 export default function Galerie() {
+  const { t } = useT();
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -138,7 +140,7 @@ export default function Galerie() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Immersion au cœur de l'ICERD
+              {t('pages.galerie.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

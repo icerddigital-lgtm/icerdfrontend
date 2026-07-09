@@ -1,5 +1,6 @@
 // frontend/src/pages/Analyses.jsx
 import { useEffect, useMemo, useState } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api, fcfa } from '../api.js';
 
 // ============================================================
@@ -76,6 +77,7 @@ const MATRICE_COLORS = {
 };
 
 export default function Analyses() {
+  const { t, format } = useT();
   const [catalogue, setCatalogue] = useState(CATALOGUE_DEMO);
   const [matrice, setMatrice] = useState('TOUTES');
   const [categorie, setCategorie] = useState('TOUTES');
@@ -174,7 +176,7 @@ export default function Analyses() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Nos analyses, méthodes et délais
+              {t('analyses.titre')}
             </h1>
             <p style={{
               fontSize: '17px',
@@ -297,7 +299,7 @@ export default function Analyses() {
                 <input
                   value={recherche}
                   onChange={e => setRecherche(e.target.value)}
-                  placeholder="Rechercher une analyse..."
+                  placeholder={t('analyses.rechercher')}
                   className="search-input-field"
                   style={{
                     padding: '8px 14px 8px 36px',
@@ -365,12 +367,12 @@ export default function Analyses() {
               <thead>
                 <tr>
                   <th>Code</th>
-                  <th>Analyse</th>
-                  <th>Matrice</th>
-                  <th>Catégorie</th>
-                  <th>Méthode</th>
-                  <th style={{ textAlign: 'center' }}>Délai</th>
-                  {showPrix && <th style={{ textAlign: 'right' }}>Prix indicatif</th>}
+                  <th>{t('analyses.nom')}</th>
+                  <th>{t('analyses.matrice')}</th>
+                  <th>{t('analyses.categorie')}</th>
+                  <th>{t('analyses.methode')}</th>
+                  <th style={{ textAlign: 'center' }}>{t('analyses.delai')}</th>
+                  {showPrix && <th style={{ textAlign: 'right' }}>{t('analyses.prixIndicatif')}</th>}
                 </tr>
               </thead>
               <tbody>
@@ -455,7 +457,7 @@ export default function Analyses() {
                       color: 'var(--text-muted)'
                     }}>
                       <div style={{ fontSize: '40px', marginBottom: '8px' }}>🔬</div>
-                      <p style={{ fontWeight: 500 }}>Aucune analyse ne correspond à ce filtre</p>
+                      <p style={{ fontWeight: 500 }}>{t('analyses.aucuneCorrespondance')}</p>
                       <p style={{ fontSize: '14px' }}>Contactez-nous : nous réalisons aussi des analyses sur demande.</p>
                     </td>
                   </tr>

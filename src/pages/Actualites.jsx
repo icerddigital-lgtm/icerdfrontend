@@ -1,9 +1,11 @@
 // frontend/src/pages/Actualites.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api, formatDate } from '../api.js';
 import Modal from '../components/Modal.jsx';
 
 export default function Actualites() {
+  const { t } = useT();
   const [actualites, setActualites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -88,7 +90,7 @@ export default function Actualites() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Toute l'actualité de l'ICERD
+              {t('pages.actualites.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

@@ -1,5 +1,6 @@
 // frontend/src/pages/Partenaires.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api } from '../api.js';
 
 const TYPE_COLORS = {
@@ -21,6 +22,7 @@ const TYPE_BG = {
 };
 
 export default function Partenaires() {
+  const { t } = useT();
   const [partenaires, setPartenaires] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -105,7 +107,7 @@ export default function Partenaires() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Ensemble pour le développement
+              {t('pages.partenaires.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

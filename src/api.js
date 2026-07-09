@@ -3,7 +3,21 @@
 // API CLIENT - Gestion des requêtes HTTP
 // ============================================================================
 
+import { langueCourante } from './i18n/index.jsx';
+
 const BASE = import.meta.env.VITE_BACKEND_URL || '/api';
+
+/**
+ * Ajoute ?lang=fr|en au chemin, sauf s'il est déjà présent.
+ * Le backend renvoie alors les contenus traduits (avec repli sur le français).
+ * Uniquement pour les lectures : inutile d'alourdir POST/PUT/PATCH/DELETE.
+ */
+function avecLangue(chemin, methode = 'GET') {
+  if ((methode || 'GET').toUpperCase() !== 'GET') return chemin;
+  if (/[?&]lang=/.test(chemin)) return chemin;
+  const separateur = chemin.includes('?') ? '&' : '?';
+  return `${chemin}${separateur}lang=${langueCourante()}`;
+}
 
 // Configuration
 const CONFIG = {
@@ -106,7 +120,7 @@ export async function api(chemin, options = {}) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), CONFIG.timeout);
       
-      const rep = await fetch(`${BASE}${chemin}`, {
+      const rep = await fetch(`${BASE}${avecLangue(chemin, options.method)}`, {
         ...options,
         headers: entetes,
         signal: controller.signal

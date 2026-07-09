@@ -1,5 +1,6 @@
 // frontend/src/pages/Laboratoires.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { Link } from 'react-router-dom';
 
 // ============================================================
@@ -117,6 +118,7 @@ const SLIDES = [
 ];
 
 export default function Laboratoires() {
+  const { t } = useT();
   const [slideIndex, setSlideIndex] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
 
@@ -242,7 +244,7 @@ export default function Laboratoires() {
               lineHeight: 1.15,
               marginBottom: '10px'
             }}>
-              Trois laboratoires, une chaîne analytique complète
+              {t('pages.laboratoires.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

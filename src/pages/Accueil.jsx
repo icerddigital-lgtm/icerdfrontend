@@ -1,20 +1,21 @@
 // frontend/src/pages/Accueil.jsx
 import { Link } from 'react-router-dom';
+import { useT } from '../i18n/index.jsx';
 import { useState } from 'react';
 
-const DIVISIONS = [
+const divisions = (t) => [
   { 
     code: 'DIVISION 01', 
-    titre: 'Études environnementales',
+    titre: t('accueil.div1Titre'),
     icone: '🌿',
     couleur: '#1d4ed8',
     image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457614/pexels-nessah-32391849_hbpgfx.jpg',
-    texte: "Études d'impacts environnementaux, audits, études de contamination ou de pollution — pour évaluer la santé des écosystèmes aquatiques et terrestres et guider leur préservation ou leur réhabilitation.",
+    texte: t('accueil.div1Texte'),
     stats: '15+ projets réalisés'
   },
   { 
     code: 'DIVISION 02', 
-    titre: 'Études agricoles et forestières',
+    titre: t('accueil.div2Titre'),
     icone: '🌾',
     couleur: '#16a34a',
     image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457537/pexels-topeasokere-6247764_ww3o1w.jpg',
@@ -23,7 +24,7 @@ const DIVISIONS = [
   },
   { 
     code: 'DIVISION 03', 
-    titre: 'Mines et géotechnique',
+    titre: t('accueil.div3Titre'),
     icone: '⛏️',
     couleur: '#b4552d',
     image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783438732/portrait-engineers-work-hours-job-site_j1u0dj.jpg',
@@ -32,25 +33,25 @@ const DIVISIONS = [
   },
 ];
 
-const ETAPES = [
+const etapes = (t) => [
   {
     code: '01',
-    titre: 'Réception & codification',
-    description: "Chaque échantillon reçoit un code unique anonymisé, un contrôle de conformité et un emplacement de stockage tracé.",
+    titre: t('accueil.etape1Titre'),
+    description: t('accueil.etape1Texte'),
     icone: '📋',
     couleur: '#1d4ed8'
   },
   {
     code: '02',
-    titre: 'Analyse au laboratoire',
-    description: "Méthodes normalisées (ISO 11047, ASTM D2216…), appareillage de pointe et techniciens qualifiés.",
+    titre: t('accueil.etape2Titre'),
+    description: t('accueil.etape2Texte'),
     icone: '🔬',
     couleur: '#16a34a'
   },
   {
     code: '03',
-    titre: 'Validation & rapport',
-    description: "Double contrôle : le résultat saisi par le technicien est validé par le chef de laboratoire avant émission du rapport d'essai signé.",
+    titre: t('accueil.etape3Titre'),
+    description: t('accueil.etape3Texte'),
     icone: '📄',
     couleur: '#b4552d'
   },
@@ -134,6 +135,9 @@ const LogoICERD = ({ size = 80 }) => {
 };
 
 export default function Accueil() {
+  const { t } = useT();
+  const DIVISIONS = divisions(t);
+  const ETAPES = etapes(t);
   const [hoveredDivision, setHoveredDivision] = useState(null);
 
   return (
@@ -218,9 +222,9 @@ export default function Accueil() {
                   marginBottom: '20px',
                   letterSpacing: '-0.02em'
                 }}>
-                  Du sol au résultat,{' '}
-                  <span style={{ color: 'var(--orange-brand)' }}>la science au service</span>
-                  <br />du développement.
+                  {t('accueil.titre1')}{' '}
+                  <span style={{ color: 'var(--orange-brand)' }}>{t('accueil.titreAccent')}</span>
+                  <br />{t('accueil.titre2')}
                 </h1>
                 <p style={{
                   fontSize: '18px',
@@ -229,19 +233,17 @@ export default function Accueil() {
                   lineHeight: 1.8,
                   maxWidth: '560px'
                 }}>
-                  L'ICERD analyse vos sols, vos eaux, vos plantes, vos engrais et vos minerais
-                  dans trois laboratoires équipés selon les exigences de la norme ISO 17025 —
-                  et vous accompagne de l'échantillon jusqu'à la décision.
+                  {t('accueil.intro')}
                 </p>
                 <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
                   <Link to="/analyses" className="btn-lab btn-lab--primary" style={{ padding: '14px 32px' }}>
-                    📋 Catalogue d'analyses
+                    📋 {t('accueil.ctaCatalogue')}
                   </Link>
                   <Link to="/contact" className="btn-lab btn-lab--outline" style={{ padding: '14px 32px' }}>
-                    📄 Demander un devis
+                    📄 {t('accueil.ctaDevis')}
                   </Link>
                   <Link to="/portail" className="btn-lab btn-lab--accent" style={{ padding: '14px 32px' }}>
-                    🔐 Portail LIMS
+                    🔐 {t('nav.portail')}
                   </Link>
                 </div>
               </div>
@@ -425,7 +427,7 @@ export default function Accueil() {
               fontWeight: '600',
               letterSpacing: '1px'
             }}>
-              SECTEURS D'ACTIVITÉ
+              {t('accueil.divisionsSurtitre').toUpperCase()}
             </span>
             <h2 style={{ 
               color: 'var(--blue-deep)', 
@@ -433,7 +435,7 @@ export default function Accueil() {
               fontSize: 'clamp(28px, 3.5vw, 42px)',
               fontWeight: 800
             }}>
-              Trois divisions, un même socle : <br />la donnée fiable.
+              {t('accueil.divisionsTitre')}
             </h2>
           </div>
 
@@ -565,7 +567,7 @@ export default function Accueil() {
               fontWeight: '600',
               letterSpacing: '1px'
             }}>
-              PROCESSUS ANALYTIQUE
+              {t('accueil.processusSurtitre').toUpperCase()}
             </span>
             <h2 style={{ 
               color: 'var(--blue-deep)', 
@@ -573,7 +575,7 @@ export default function Accueil() {
               fontSize: 'clamp(28px, 3.5vw, 42px)',
               fontWeight: 800
             }}>
-              La traçabilité de vos échantillons
+              {t('accueil.processusTitre')}
             </h2>
           </div>
 
@@ -678,7 +680,7 @@ export default function Accueil() {
 
           <div style={{ textTransform: 'none', textAlign: 'center', marginTop: '40px' }}>
             <Link to="/laboratoires" className="btn-lab btn-lab--outline" style={{ padding: '12px 32px' }}>
-              🔬 Découvrir nos laboratoires
+              🔬 {t('accueil.conseilCta')}
             </Link>
           </div>
         </div>
@@ -718,7 +720,7 @@ export default function Accueil() {
             fontWeight: 800,
             marginBottom: '16px'
           }}>
-            Des experts pour transformer <br />l'analyse en décision.
+            {t('accueil.conseilTitre')}
           </h2>
           <p style={{
             fontSize: '17px',
@@ -726,17 +728,14 @@ export default function Accueil() {
             marginBottom: '32px',
             lineHeight: 1.8
           }}>
-            Composé d'experts chevronnés, le service appui-conseil propose aux clients
-            les modes d'utilisation des terres et les fertilisants les mieux adaptés,
-            pour une production accrue. L'ICERD évalue les terres selon l'aptitude du sol
-            et du climat pour la culture envisagée.
+            {t('accueil.conseilTexte')}
           </p>
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/a-propos" className="btn-lab btn-lab--accent" style={{ padding: '14px 32px' }}>
-              🔬 Découvrir le Centre
+              🔬 {t('accueil.conseilCta')}
             </Link>
             <Link to="/contact" className="btn-lab btn-lab--outline" style={{ padding: '14px 32px' }}>
-              📄 Nous contacter
+              📄 {t('contact.titre')}
             </Link>
           </div>
         </div>

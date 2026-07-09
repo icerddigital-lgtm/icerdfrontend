@@ -1,5 +1,6 @@
 // frontend/src/pages/Publications.jsx
 import { useState, useEffect, useMemo } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api, formatDate } from '../api.js';
 
 // ============================================================
@@ -37,6 +38,7 @@ const getBadgeStyles = (cat) => {
 };
 
 export default function Publications() {
+  const { t } = useT();
   const [publications, setPublications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categorie, setCategorie] = useState('TOUTES');
@@ -126,7 +128,7 @@ export default function Publications() {
               letterSpacing: '-0.02em',
               marginBottom: '16px'
             }}>
-              Publications & Travaux
+              {t('pages.publications.titre')}
             </h1>
             <p style={{ fontSize: '18px', color: 'var(--text-main, #334155)', lineHeight: 1.6, marginBottom: '32px' }}>
               Découvrez les publications scientifiques de l'ICERD, reflets de notre engagement pour l'environnement, l'agriculture résiliente et le développement durable.

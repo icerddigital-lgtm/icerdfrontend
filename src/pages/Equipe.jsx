@@ -1,5 +1,6 @@
 // frontend/src/pages/Equipe.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api } from '../api.js';
 
 const CATEGORIES = ['TOUS', 'Direction', 'Chercheurs', 'Techniciens', 'Administratif', 'Stagiaires'];
@@ -13,6 +14,7 @@ const CATEGORY_MAP = {
 };
 
 export default function Equipe() {
+  const { t } = useT();
   const [membres, setMembres] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -105,7 +107,7 @@ export default function Equipe() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Des experts au service de la recherche
+              {t('pages.equipe.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

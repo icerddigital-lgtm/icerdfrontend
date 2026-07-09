@@ -2,6 +2,43 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, NavLink, Link, Navigate, useNavigate } from 'react-router-dom';
 import { api, jeton } from '../api.js';
+import { useT } from '../i18n/index.jsx';
+import SelecteurLangue from '../components/SelecteurLangue.jsx';
+
+// ============================================================
+// REACT ICONS
+// ============================================================
+import { 
+  FaHome, 
+  FaUsers, 
+  FaClipboardList, 
+  FaFlask, 
+  FaChartBar, 
+  FaBox, 
+  FaCreditCard, 
+  FaDownload,
+  FaBook, 
+  FaFolder, 
+  FaCalendarAlt, 
+  FaBriefcase, 
+  FaHandshake, 
+  FaNewspaper, 
+  FaImages, 
+  FaUserCircle, 
+  FaQuestionCircle, 
+  FaDatabase, 
+  FaUserCog, 
+  FaMicroscope, 
+  FaSignOutAlt, 
+  FaLock, 
+  FaEye, 
+  FaEyeSlash, 
+  FaChevronDown,
+  FaTimes,
+  FaFileAlt,
+  FaFileExcel,
+  FaFileCode
+} from 'react-icons/fa';
 
 // Pages du portail
 import TableauDeBord from './TableauDeBord.jsx';
@@ -39,6 +76,7 @@ import Toast from '../components/Toast.jsx';
 // COMPOSANT DE CONNEXION
 // ============================================================
 function Connexion({ onConnecte }) {
+  const { t } = useT();
   const [email, setEmail] = useState('');
   const [mdp, setMdp] = useState('');
   const [erreur, setErreur] = useState('');
@@ -51,7 +89,7 @@ function Connexion({ onConnecte }) {
     setChargement(true);
 
     if (!email || !mdp) {
-      setErreur('Veuillez remplir tous les champs');
+      setErreur(t('portail.champsRequis'));
       setChargement(false);
       return;
     }
@@ -79,7 +117,7 @@ function Connexion({ onConnecte }) {
 
     } catch (e) {
       console.error('❌ Erreur connexion:', e);
-      setErreur(e.message || 'Erreur de connexion. Vérifiez vos identifiants.');
+      setErreur(e.message || t('portail.erreurConnexion'));
     } finally {
       setChargement(false);
     }
@@ -145,9 +183,12 @@ function Connexion({ onConnecte }) {
               `;
             }}
           />
-          <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#0f2d80', marginTop: '12px' }}>Portail ICERD</h2>
+          <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#0f2d80', marginTop: '12px' }}>
+            <FaLock size={20} style={{ display: 'inline', marginRight: '8px' }} />
+            {t('portail.titrePortail')}
+          </h2>
           <p style={{ color: '#64748b', fontSize: '13px' }}>
-            Laboratory Information Management System
+            {t('portail.sousTitre')}
           </p>
         </div>
 
@@ -163,7 +204,7 @@ function Connexion({ onConnecte }) {
             alignItems: 'center',
             gap: '8px'
           }}>
-            <span>❌</span>
+            <FaTimes size={18} />
             <span>{erreur}</span>
           </div>
         )}
@@ -183,7 +224,7 @@ function Connexion({ onConnecte }) {
           </div>
 
           <div className="champ-lab">
-            <label>Mot de passe</label>
+            <label>{t('portail.motDePasse')}</label>
             <div style={{ position: 'relative' }}>
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -210,7 +251,7 @@ function Connexion({ onConnecte }) {
                   padding: '4px'
                 }}
               >
-                {showPassword ? '👁️' : '👁️‍🗨️'}
+                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
               </button>
             </div>
           </div>
@@ -233,16 +274,22 @@ function Connexion({ onConnecte }) {
                   animation: 'spin 0.8s linear infinite',
                   marginRight: '8px'
                 }}></span>
-                Connexion...
+                {t('portail.connexionEnCours')}
               </>
             ) : (
-              '🔐 Se connecter'
+              <>
+                <FaLock size={18} style={{ marginRight: '8px' }} />
+                {t('portail.seConnecter')}
+              </>
             )}
           </button>
         </form>
 
         <p style={{ marginTop: '18px', fontSize: '13px', color: '#94a3b8', textAlign: 'center' }}>
-          <Link to="/" style={{ color: '#1d4ed8', fontWeight: 600 }}>← Retour au site public</Link>
+          <Link to="/" style={{ color: '#1d4ed8', fontWeight: 600 }}>
+            <FaHome size={16} style={{ display: 'inline', marginRight: '4px' }} />
+            {t('portail.retourSite')}
+          </Link>
         </p>
       </div>
       <style>{`
@@ -253,9 +300,43 @@ function Connexion({ onConnecte }) {
 }
 
 // ============================================================
+// MENU ITEMS AVEC ICONES REACT
+// ============================================================
+const MENU_ITEMS = {
+  staff: [
+    { path: '/portail', icon: FaHome, labelKey: 'portail.tableauDeBord' },
+    { path: '/portail/clients', icon: FaUsers, labelKey: 'portail.clients' },
+    { path: '/portail/demandes', icon: FaClipboardList, labelKey: 'portail.demandes' },
+    { path: '/portail/echantillons', icon: FaFlask, labelKey: 'portail.echantillons' },
+    { path: '/portail/resultats', icon: FaChartBar, labelKey: 'portail.resultats' },
+    { path: '/portail/stocks', icon: FaBox, labelKey: 'portail.stocks' },
+    { path: '/portail/factures', icon: FaCreditCard, labelKey: 'portail.factures' },
+    { path: '/portail/exports', icon: FaDownload, labelKey: 'portail.exports' },
+    { path: '/portail/publications', icon: FaBook, labelKey: 'nav.publications' },
+    { path: '/portail/projets', icon: FaFolder, labelKey: 'nav.projets' },
+    { path: '/portail/evenements', icon: FaCalendarAlt, labelKey: 'nav.evenements' },
+    { path: '/portail/carrieres', icon: FaBriefcase, labelKey: 'nav.carrieres' },
+    { path: '/portail/partenaires', icon: FaHandshake, labelKey: 'nav.partenaires' },
+    { path: '/portail/actualites', icon: FaNewspaper, labelKey: 'nav.actualites' },
+    { path: '/portail/galerie', icon: FaImages, labelKey: 'nav.galerie' },
+    { path: '/portail/equipe', icon: FaUserCircle, labelKey: 'nav.equipe' },
+    { path: '/portail/faq', icon: FaQuestionCircle, labelKey: 'nav.faq' },
+    { path: '/portail/banque-donnees', icon: FaDatabase, labelKey: 'portail.banqueDonnees' },
+    { path: '/portail/utilisateurs', icon: FaUserCog, labelKey: 'portail.utilisateurs' },
+    { path: '/portail/equipements', icon: FaMicroscope, labelKey: 'portail.equipements' },
+  ],
+  client: [
+    { path: '/portail', icon: FaClipboardList, labelKey: 'portail.mesDemandes' },
+    { path: '/portail/mes-rapports', icon: FaFileAlt, labelKey: 'portail.mesRapports' },
+    { path: '/portail/mes-factures', icon: FaCreditCard, labelKey: 'portail.mesFactures' },
+  ]
+};
+
+// ============================================================
 // COMPOSANT PRINCIPAL PORTAIL
 // ============================================================
 export default function Portail() {
+  const { t } = useT();
   const [utilisateur, setUtilisateur] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState(null);
@@ -302,7 +383,7 @@ export default function Portail() {
             animation: 'spin 0.8s linear infinite',
             margin: '0 auto 16px'
           }}></div>
-          <p style={{ color: '#64748b' }}>Chargement du portail...</p>
+          <p style={{ color: '#64748b' }}>{t('portail.chargementPortail')}</p>
         </div>
       </div>
     );
@@ -322,38 +403,7 @@ export default function Portail() {
   const isAdmin = utilisateur.role === 'ADMIN' || utilisateur.role === 'DIRECTION';
   const estClient = utilisateur?.role === 'CLIENT';
 
-  // Menu pour les clients
-  const menuItemsClient = [
-    { path: '/portail', icon: '📋', label: 'Mes demandes' },
-    { path: '/portail/mes-rapports', icon: '📄', label: 'Mes rapports' },
-    { path: '/portail/mes-factures', icon: '💰', label: 'Mes factures' },
-  ];
-
-  // Menu complet pour le personnel
-  const menuItemsStaff = [
-    { path: '/portail', icon: '📊', label: 'Tableau de bord' },
-    { path: '/portail/clients', icon: '👥', label: 'Clients' },
-    { path: '/portail/demandes', icon: '📋', label: 'Demandes' },
-    { path: '/portail/echantillons', icon: '🧪', label: 'Échantillons' },
-    { path: '/portail/resultats', icon: '📈', label: 'Résultats' },
-    { path: '/portail/stocks', icon: '📦', label: 'Stocks' },
-    { path: '/portail/factures', icon: '💰', label: 'Factures' },
-    { path: '/portail/exports', icon: '⬇️', label: 'Exports' },
-    { path: '/portail/publications', icon: '📚', label: 'Publications' },
-    { path: '/portail/projets', icon: '📋', label: 'Projets' },
-    { path: '/portail/evenements', icon: '📅', label: 'Événements' },
-    { path: '/portail/carrieres', icon: '💼', label: 'Carrières' },
-    { path: '/portail/partenaires', icon: '🤝', label: 'Partenaires' },
-    { path: '/portail/actualites', icon: '📰', label: 'Actualités' },
-    { path: '/portail/galerie', icon: '🖼️', label: 'Galerie' },
-    { path: '/portail/equipe', icon: '👥', label: 'Équipe' },
-    { path: '/portail/faq', icon: '❓', label: 'FAQ' },
-    { path: '/portail/banque-donnees', icon: '📊', label: 'Banque de données' },
-    { path: '/portail/utilisateurs', icon: '👤', label: 'Utilisateurs' },
-    { path: '/portail/equipements', icon: '🔬', label: 'Équipements' },
-  ];
-
-  const menuItems = estClient ? menuItemsClient : menuItemsStaff;
+  const menuItems = estClient ? MENU_ITEMS.client : MENU_ITEMS.staff;
 
   const mainItems = menuItems.filter(item =>
     !['/portail/utilisateurs', '/portail/equipements'].includes(item.path)
@@ -434,6 +484,7 @@ export default function Portail() {
         </Link>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <SelecteurLangue />
           <div style={{ textAlign: 'right' }}>
             <div style={{
               fontWeight: 600,
@@ -461,7 +512,7 @@ export default function Portail() {
             fontWeight: 600,
             fontSize: '14px'
           }}>
-            {initiales || '👤'}
+            {initiales || <FaUserCircle size={20} />}
           </div>
           <button
             onClick={deconnecter}
@@ -474,7 +525,10 @@ export default function Portail() {
               fontWeight: 500,
               fontSize: '13px',
               cursor: 'pointer',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
             }}
             onMouseEnter={(e) => {
               e.target.style.background = '#fee2e2';
@@ -485,7 +539,8 @@ export default function Portail() {
               e.target.style.color = '#475569';
             }}
           >
-            Déconnexion
+            <FaSignOutAlt size={16} />
+            {t('portail.seDeconnecter')}
           </button>
         </div>
       </header>
@@ -514,11 +569,12 @@ export default function Portail() {
             padding: '0 12px',
             marginBottom: '8px'
           }}>
-            {estClient ? 'Espace Client' : 'Gestion'}
+            {estClient ? t('portail.groupeEspaceClient') : t('portail.groupeGestion')}
           </div>
 
           {mainItems.map(item => {
             if ((item.path === '/portail/utilisateurs' || item.path === '/portail/equipements') && !isAdmin) return null;
+            const Icon = item.icon;
             return (
               <NavLink
                 key={item.path}
@@ -540,8 +596,8 @@ export default function Portail() {
                   marginBottom: '2px'
                 })}
               >
-                <span style={{ fontSize: '18px' }}>{item.icon}</span>
-                {item.label}
+                <Icon size={18} />
+                {t(item.labelKey)}
               </NavLink>
             );
           })}
@@ -558,31 +614,34 @@ export default function Portail() {
                 marginTop: '8px',
                 borderTop: '1px solid rgba(0,0,0,0.04)'
               }}>
-                Administration
+                {t('portail.groupeAdministration')}
               </div>
-              {adminItems.map(item => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  style={({ isActive }) => ({
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '10px 14px',
-                    borderRadius: '8px',
-                    textDecoration: 'none',
-                    fontSize: '14px',
-                    fontWeight: isActive ? 600 : 500,
-                    color: isActive ? '#1d4ed8' : '#475569',
-                    background: isActive ? '#e8edfd' : 'transparent',
-                    transition: 'all 0.15s ease',
-                    marginBottom: '2px'
-                  })}
-                >
-                  <span style={{ fontSize: '18px' }}>{item.icon}</span>
-                  {item.label}
-                </NavLink>
-              ))}
+              {adminItems.map(item => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    style={({ isActive }) => ({
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      textDecoration: 'none',
+                      fontSize: '14px',
+                      fontWeight: isActive ? 600 : 500,
+                      color: isActive ? '#1d4ed8' : '#475569',
+                      background: isActive ? '#e8edfd' : 'transparent',
+                      transition: 'all 0.15s ease',
+                      marginBottom: '2px'
+                    })}
+                  >
+                    <Icon size={18} />
+                    {t(item.labelKey)}
+                  </NavLink>
+                );
+              })}
             </>
           )}
 
@@ -607,8 +666,8 @@ export default function Portail() {
                 transition: 'all 0.15s ease'
               })}
             >
-              <span style={{ fontSize: '18px' }}>🏠</span>
-              Site public
+              <FaHome size={18} />
+              {t('portail.sitePublic')}
             </NavLink>
           </div>
         </aside>

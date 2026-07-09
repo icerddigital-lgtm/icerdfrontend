@@ -1,8 +1,10 @@
 // frontend/src/pages/Projets.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api, formatDate } from '../api.js';
 
 export default function Projets() {
+  const { t } = useT();
   const [projets, setProjets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtreStatut, setFiltreStatut] = useState('TOUS');
@@ -86,7 +88,7 @@ export default function Projets() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Nos projets, notre impact
+              {t('pages.projets.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

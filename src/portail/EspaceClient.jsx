@@ -4,6 +4,7 @@
 // ============================================================================
 import { useEffect, useState } from 'react';
 import { api, fcfa, telechargerFichier } from '../api.js';
+import { useT } from '../i18n/index.jsx';
 
 const carte = { background: '#fff', borderRadius: 12, padding: 20, border: '1px solid #e2e8f0', marginBottom: 16 };
 const etiq = (fond, texte) => ({ background: fond, color: texte, padding: '3px 10px', borderRadius: 6, fontSize: 12, fontWeight: 600 });
@@ -18,6 +19,7 @@ const STATUTS = {
 };
 
 export function MesDemandes({ showToast }) {
+  const { t, format } = useT();
   const [liste, setListe] = useState(null);
   const [detail, setDetail] = useState(null);
 
@@ -31,7 +33,7 @@ export function MesDemandes({ showToast }) {
   if (!liste) return <p>Chargement de vos demandes…</p>;
   return (
     <div>
-      <h2 style={{ marginBottom: 6 }}>Mes demandes d'analyses</h2>
+      <h2 style={{ marginBottom: 6 }}>{t('portail.mesDemandes')}</h2>
       <p style={{ color: '#64748b', fontSize: 14, marginBottom: 20 }}>
         Suivez en temps réel l'avancement de vos échantillons au laboratoire.
       </p>
@@ -60,7 +62,7 @@ export function MesDemandes({ showToast }) {
               </div>
             </div>
             <button onClick={() => voir(d.id)} style={{ marginTop: 12, background: 'none', border: '1px solid #cbd5e1',
-              borderRadius: 7, padding: '6px 14px', fontSize: 13, cursor: 'pointer' }}>Voir le détail</button>
+              borderRadius: 7, padding: '6px 14px', fontSize: 13, cursor: 'pointer' }}>{t('commun.voirDetail')}</button>
             {detail?.id === d.id && (
               <div style={{ marginTop: 12, borderTop: '1px solid #e2e8f0', paddingTop: 12 }}>
                 {detail.echantillons.map(e => (
@@ -81,6 +83,7 @@ export function MesDemandes({ showToast }) {
 }
 
 export function MesRapports({ showToast }) {
+  const { t, format } = useT();
   const [liste, setListe] = useState(null);
   const [enCours, setEnCours] = useState('');
 
@@ -89,7 +92,7 @@ export function MesRapports({ showToast }) {
   const pdf = async (r) => {
     setEnCours(r.numero);
     try { await telechargerFichier(`/rapports/demande/${r.demande_id}/pdf`, `Rapport_${r.numero}.pdf`);
-      showToast?.('Rapport téléchargé', 'success'); }
+      showToast?.(t('commun.telecharger'), 'success'); }
     catch (e) { showToast?.(e.message, 'error'); }
     finally { setEnCours(''); }
   };
@@ -97,7 +100,7 @@ export function MesRapports({ showToast }) {
   if (!liste) return <p>Chargement de vos rapports…</p>;
   return (
     <div>
-      <h2 style={{ marginBottom: 6 }}>Mes rapports d'essai</h2>
+      <h2 style={{ marginBottom: 6 }}>{t('portail.mesRapports')}</h2>
       <p style={{ color: '#64748b', fontSize: 14, marginBottom: 20 }}>
         Téléchargez vos rapports officiels au format PDF. Chaque rapport porte une empreinte
         numérique (SHA-256) garantissant qu'il n'a pas été modifié depuis son émission.
@@ -107,7 +110,7 @@ export function MesRapports({ showToast }) {
         <div key={r.numero} style={{ ...carte, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
           <div>
             <strong style={{ fontFamily: 'monospace' }}>{r.numero}</strong>
-            {r.amende && <span style={{ ...etiq('#fef3c7', '#92400e'), marginLeft: 8 }}>Rapport amendé</span>}
+            {r.amende && <span style={{ ...etiq('#fef3c7', '#92400e'), marginLeft: 8 }}>{t('portail.rapportAmende')}</span>}
             <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>
               Demande {r.demande} · {r.objet || ''} · émis le {r.emis_le}
             </div>
@@ -115,7 +118,7 @@ export function MesRapports({ showToast }) {
           <button onClick={() => pdf(r)} disabled={enCours === r.numero}
             style={{ background: '#B4552D', color: '#fff', border: 'none', borderRadius: 8,
               padding: '10px 18px', fontSize: 13.5, fontWeight: 600, cursor: 'pointer' }}>
-            {enCours === r.numero ? 'Téléchargement…' : '⬇ Télécharger le PDF'}
+            {enCours === r.numero ? t('portail.telechargement') : '⬇ Télécharger le PDF'}
           </button>
         </div>
       ))}
@@ -124,13 +127,14 @@ export function MesRapports({ showToast }) {
 }
 
 export function MesFactures({ showToast }) {
+  const { t, format } = useT();
   const [liste, setListe] = useState(null);
   useEffect(() => { api('/portail-client/mes-factures').then(setListe).catch(e => showToast?.(e.message, 'error')); }, []);
 
   if (!liste) return <p>Chargement de vos factures…</p>;
   return (
     <div>
-      <h2 style={{ marginBottom: 6 }}>Mes factures</h2>
+      <h2 style={{ marginBottom: 6 }}>{t('portail.mesFactures')}</h2>
       <p style={{ color: '#64748b', fontSize: 14, marginBottom: 20 }}>
         Règlement par virement, chèque, espèces au Centre, MTN Mobile Money ou Orange Money
         (références sur votre facture).

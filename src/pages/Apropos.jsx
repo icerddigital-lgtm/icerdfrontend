@@ -1,5 +1,6 @@
 // frontend/src/pages/Apropos.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { Link } from 'react-router-dom';
 
 // ============================================================
@@ -112,6 +113,7 @@ const SLIDES = [
 ];
 
 export default function Apropos() {
+  const { t } = useT();
   const [activeMission, setActiveMission] = useState(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -285,8 +287,7 @@ export default function Apropos() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Un institut de recherche privé,<br />
-              un centre d'excellence
+              {t('pages.apropos.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

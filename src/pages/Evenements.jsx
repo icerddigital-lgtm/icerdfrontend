@@ -1,5 +1,6 @@
 // frontend/src/pages/Evenements.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api, formatDate } from '../api.js';
 
 const TYPE_COLORS = {
@@ -21,6 +22,7 @@ const TYPE_BG = {
 };
 
 export default function Evenements() {
+  const { t } = useT();
   const [evenements, setEvenements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -104,7 +106,7 @@ export default function Evenements() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Agenda scientifique
+              {t('pages.evenements.titre')}
             </h1>
             <p style={{
               fontSize: '17px',

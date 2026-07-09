@@ -1,5 +1,6 @@
 // frontend/src/pages/Carrieres.jsx
 import { useState, useEffect } from 'react';
+import { useT } from '../i18n/index.jsx';
 import { api, formatDate } from '../api.js';
 
 const TYPE_COLORS = {
@@ -21,6 +22,7 @@ const TYPE_BG = {
 };
 
 export default function Carrieres() {
+  const { t } = useT();
   const [offres, setOffres] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -105,7 +107,7 @@ export default function Carrieres() {
               lineHeight: 1.15,
               marginBottom: '12px'
             }}>
-              Rejoignez l'équipe ICERD
+              {t('pages.carrieres.titre')}
             </h1>
             <p style={{
               fontSize: '17px',
