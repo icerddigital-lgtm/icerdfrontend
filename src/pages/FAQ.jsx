@@ -4,7 +4,8 @@ import { useT } from '../i18n/index.jsx';
 import { api } from '../api.js';
 
 export default function FAQ() {
-  const { t } = useT();
+  const { t, libelleCategorie } = useT();
+
   const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -48,7 +49,7 @@ export default function FAQ() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 12px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement des questions...</p>
+        <p style={{ color: '#64748b' }}>{t('cms.chargement.faq')}</p>
       </div>
     );
   }
@@ -62,7 +63,7 @@ export default function FAQ() {
           onClick={() => window.location.reload()}
           style={{ marginTop: '16px' }}
         >
-          Réessayer
+          {t('commun.reessayer')}
         </button>
       </div>
     );
@@ -103,7 +104,7 @@ export default function FAQ() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Les réponses aux questions les plus fréquemment posées sur l'ICERD.
+              {t('cms.intro.faq')}
             </p>
             <p style={{
               fontSize: '14px',
@@ -134,7 +135,7 @@ export default function FAQ() {
               className={`btn-lab ${categorie === 'TOUS' ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
               style={{ fontSize: '13px', padding: '6px 16px', cursor: 'pointer' }}
             >
-              TOUTES ({faqs.length})
+              {t('cms.cat.TOUTES')} ({faqs.length})
             </button>
             {categories.map(c => (
               <button
@@ -143,7 +144,7 @@ export default function FAQ() {
                 className={`btn-lab ${categorie === c.categorie ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
                 style={{ fontSize: '13px', padding: '6px 16px', cursor: 'pointer' }}
               >
-                {c.categorie} ({c.total})
+                {libelleCategorie(c.categorie)} ({c.total})
               </button>
             ))}
           </div>
@@ -157,7 +158,7 @@ export default function FAQ() {
             {filtres.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '40px 20px', color: '#94a3b8' }}>
                 <div style={{ fontSize: '48px', marginBottom: '12px' }}>❓</div>
-                <p>Aucune question dans cette catégorie</p>
+                <p>{t('cms.vide.faq')}</p>
               </div>
             ) : (
               filtres.map((item, index) => {

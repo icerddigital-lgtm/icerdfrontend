@@ -17,6 +17,10 @@
 //   const { t, langue, basculer } = useT();
 //   <h1>{t('accueil.titre')}</h1>
 //   <p>{t('accueil.compteurs', { n: 164 })}</p>   // interpolation {n}
+//
+//   // Valeurs venues de la base (catégories, statuts) : traduction silencieuse
+//   const { libelleCategorie } = useT();
+//   <span>{libelleCategorie(projet.statut)}</span>   // « En cours » → « Ongoing »
 // ============================================================================
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
 import { fr } from './fr.js';
@@ -77,6 +81,34 @@ export function FournisseurI18n({ children }) {
     return cle;
   }, [langue]);
 
+
+  /**
+   * Traduction SILENCIEUSE, pour les valeurs venues de la base de données.
+   *
+   * Une catégorie créée dans le portail (« Portes Ouvertes », « Alternance »…)
+   * n'existe pas dans le dictionnaire : c'est normal, ce n'est pas une erreur
+   * de programmation. On renvoie alors le repli fourni, sans rien journaliser.
+   *
+   *   tOu('cms.cat.Alternance', 'Alternance')  →  'Alternance'
+   *   tOu('cms.cat.Terrain', 'Terrain')        →  'Field'  (en anglais)
+   */
+  const tOu = useCallback((cle, repli) => {
+    const actif = resoudre(DICTIONNAIRES[langue], cle);
+    if (actif !== undefined) return actif;
+    const fallbackFr = resoudre(DICTIONNAIRES.fr, cle);
+    if (fallbackFr !== undefined) return fallbackFr;
+    return repli;
+  }, [langue]);
+
+  /**
+   * Libellé traduit d'une valeur de catégorie stockée en base.
+   * La valeur elle-même n'est jamais modifiée : elle sert de filtre.
+   */
+  const libelleCategorie = useCallback(
+    (valeur) => (valeur == null || valeur === '' ? '' : tOu(`cms.cat.${valeur}`, valeur)),
+    [tOu]
+  );
+
   const changer = useCallback((nouvelle) => {
     if (LANGUES.includes(nouvelle)) setLangue(nouvelle);
   }, []);
@@ -101,8 +133,8 @@ export function FournisseurI18n({ children }) {
   }), [langue, locale]);
 
   const valeur = useMemo(
-    () => ({ langue, changer, basculer, t, format, locale, langues: LANGUES }),
-    [langue, changer, basculer, t, format, locale]
+    () => ({ langue, changer, basculer, t, tOu, libelleCategorie, format, locale, langues: LANGUES }),
+    [langue, changer, basculer, t, tOu, libelleCategorie, format, locale]
   );
 
   return <ContexteI18n.Provider value={valeur}>{children}</ContexteI18n.Provider>;

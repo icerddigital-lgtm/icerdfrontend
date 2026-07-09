@@ -22,7 +22,8 @@ const TYPE_BG = {
 };
 
 export default function Carrieres() {
-  const { t } = useT();
+  const { t, libelleCategorie } = useT();
+
   const [offres, setOffres] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -59,7 +60,7 @@ export default function Carrieres() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 12px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement des offres...</p>
+        <p style={{ color: '#64748b' }}>{t('cms.chargement.carrieres')}</p>
       </div>
     );
   }
@@ -73,7 +74,7 @@ export default function Carrieres() {
           onClick={() => window.location.reload()}
           style={{ marginTop: '16px' }}
         >
-          Réessayer
+          {t('commun.reessayer')}
         </button>
       </div>
     );
@@ -98,7 +99,7 @@ export default function Carrieres() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              CARRIÈRES
+              {t('cms.surtitre.carrieres')}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -114,7 +115,7 @@ export default function Carrieres() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Nous recrutons des talents passionnés par la recherche scientifique et le développement durable.
+              {t('cms.intro.carrieres')}
             </p>
             <p style={{
               fontSize: '14px',
@@ -140,16 +141,16 @@ export default function Carrieres() {
             borderRadius: '12px',
             border: '1px solid var(--border-color)'
           }}>
-            {types.map(t => {
-              const count = t === 'TOUS' ? offres.length : offres.filter(o => o.type === t).length;
+            {types.map(v => {
+              const count = v === 'TOUS' ? offres.length : offres.filter(o => o.type === v).length;
               return (
                 <button
-                  key={t}
-                  onClick={() => setFiltreType(t)}
-                  className={`btn-lab ${filtreType === t ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
+                  key={v}
+                  onClick={() => setFiltreType(v)}
+                  className={`btn-lab ${filtreType === v ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
                   style={{ fontSize: '13px', padding: '6px 16px', cursor: 'pointer' }}
                 >
-                  {t} ({count})
+                  {libelleCategorie(v)} ({count})
                 </button>
               );
             })}
@@ -163,9 +164,9 @@ export default function Carrieres() {
           {filtres.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
               <div style={{ fontSize: '48px', marginBottom: '12px' }}>💼</div>
-              <p>Aucune offre ne correspond à vos critères</p>
+              <p>{t('cms.vide.carrieres')}</p>
               <p style={{ fontSize: '14px', marginTop: '4px' }}>
-                Consultez régulièrement cette page pour de nouvelles opportunités
+                {t('cms.videSous.carrieres')}
               </p>
             </div>
           ) : (
@@ -205,7 +206,7 @@ export default function Carrieres() {
                               padding: '2px 8px',
                               borderRadius: '4px'
                             }}>
-                              📅 Offre expirée
+                              📅 {t('cms.offreExpiree')}
                             </span>
                           )}
                         </h3>
@@ -221,7 +222,7 @@ export default function Carrieres() {
                         padding: '4px 12px',
                         borderRadius: '6px'
                       }}>
-                        {o.type}
+                        {libelleCategorie(o.type)}
                       </span>
                     </div>
                     
@@ -283,11 +284,10 @@ export default function Carrieres() {
           }}>
             <div style={{ fontSize: '40px', marginBottom: '8px' }}>💡</div>
             <h3 style={{ color: 'var(--blue-deep)', fontSize: '19px', fontWeight: '700', margin: 0 }}>
-              Candidature spontanée
+              {t('cms.candidatureSpontanee')}
             </h3>
             <p style={{ color: 'var(--text-muted)', marginTop: '8px', maxWidth: '500px', margin: '8px auto 0', fontSize: '14px', lineHeight: 1.5 }}>
-              Vous ne trouvez pas d'offre correspondant à votre profil ?
-              Envoyez-nous votre candidature spontanée pour rejoindre nos équipes.
+              {t('cms.candidatureSpontaneeTexte')}
             </p>
             <button 
               className="btn-lab btn-lab--primary" 
@@ -305,7 +305,7 @@ export default function Carrieres() {
         <div className="modal-overlay-custom" onClick={() => setSelectedOffre(null)}>
           <div className="modal-box-custom" style={{ maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h2 style={{ fontSize: '20px', fontWeight: '700', color: 'var(--blue-deep)', margin: 0 }}>Postuler à l'offre</h2>
+              <h2 style={{ fontSize: '20px', fontWeight: '700', color: 'var(--blue-deep)', margin: 0 }}>{t('cms.postulerOffre')}</h2>
               <button style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', color: 'var(--text-muted)' }} onClick={() => setSelectedOffre(null)}>✕</button>
             </div>
             
@@ -317,11 +317,11 @@ export default function Carrieres() {
             </div>
             
             <p style={{ fontSize: '14px', color: 'var(--text-main)', marginBottom: '16px', lineHeight: '1.5' }}>
-              Pour postuler, vous pouvez envoyer directement votre dossier complet (CV et lettre de motivation) par courrier électronique.
+              {t('cms.pourPostuler')}
             </p>
             
             <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '20px' }}>
-              📧 Adresse de réception : <strong>{selectedOffre.contact}</strong>
+              📧 {t('cms.adresseReception')} <strong>{selectedOffre.contact}</strong>
             </p>
             
             <div style={{ display: 'flex', gap: '12px' }}>
@@ -330,7 +330,7 @@ export default function Carrieres() {
                 className="btn-lab btn-lab--primary"
                 style={{ flex: 1, justifyContent: 'center', display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}
               >
-                📧 Rédiger l'e-mail
+                📧 {t('cms.redigerEmail')}
               </a>
               <button 
                 className="btn-lab btn-lab--ghost" 

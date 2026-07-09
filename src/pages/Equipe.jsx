@@ -14,7 +14,8 @@ const CATEGORY_MAP = {
 };
 
 export default function Equipe() {
-  const { t } = useT();
+  const { t, libelleCategorie } = useT();
+
   const [membres, setMembres] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -59,7 +60,7 @@ export default function Equipe() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 12px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement de l'équipe...</p>
+        <p style={{ color: '#64748b' }}>{t('cms.chargement.equipe')}</p>
       </div>
     );
   }
@@ -73,7 +74,7 @@ export default function Equipe() {
           onClick={() => window.location.reload()}
           style={{ marginTop: '16px' }}
         >
-          Réessayer
+          {t('commun.reessayer')}
         </button>
       </div>
     );
@@ -98,7 +99,7 @@ export default function Equipe() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              NOTRE ÉQUIPE
+              {t('cms.surtitre.equipe')}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -114,7 +115,7 @@ export default function Equipe() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Une équipe pluridisciplinaire de chercheurs, ingénieurs et techniciens dédiés à l'excellence scientifique et au développement durable.
+              {t('cms.intro.equipe')}
             </p>
             <p style={{
               fontSize: '14px',
@@ -149,7 +150,7 @@ export default function Equipe() {
                   className={`btn-lab ${categorie === c ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
                   style={{ fontSize: '13px', padding: '6px 16px', cursor: 'pointer' }}
                 >
-                  {c} ({count})
+                  {libelleCategorie(c)} ({count})
                 </button>
               );
             })}
@@ -163,7 +164,7 @@ export default function Equipe() {
           {filtres.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
               <div style={{ fontSize: '48px', marginBottom: '12px' }}>👥</div>
-              <p>Aucun membre dans cette catégorie</p>
+              <p>{t('cms.vide.equipe')}</p>
             </div>
           ) : (
             <div style={{
@@ -310,15 +311,14 @@ export default function Equipe() {
           <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto' }}>
             <div style={{ fontSize: '40px', marginBottom: '8px' }}>🌟</div>
             <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--blue-deep)', marginBottom: '8px' }}>
-              Rejoindre l'équipe ICERD
+              {t('cms.rejoindreTitre')}
             </h3>
             <p style={{ fontSize: '15px', color: 'var(--text-muted)', marginBottom: '20px', lineHeight: 1.6 }}>
-              Vous souhaitez faire partie de notre équipe de recherche ?
-              Consultez nos offres d'emploi ou envoyez-nous votre candidature spontanée.
+              {t('cms.rejoindreTexte')}
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href="/carrieres" className="btn-lab btn-lab--primary" style={{ textDecoration: 'none' }}>
-                💼 Voir les offres
+                💼 {t('cms.voirOffres')}
               </a>
               <a href="/contact" className="btn-lab btn-lab--outline" style={{ textDecoration: 'none' }}>
                 ✉️ Nous contacter

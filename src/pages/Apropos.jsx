@@ -39,90 +39,113 @@ const Icon = ({ name, size = 24, color = '#1d4ed8', className = '' }) => {
   );
 };
 
-const MISSIONS = [
-  {
-    lettre: 'I',
-    titre: 'Intensifier',
-    description: "Valoriser les partenariats recherche-paysan pour développer des systèmes de production adaptés et à haut rendement.",
-    couleur: '#1d4ed8',
-    icon: 'rocket',
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457504/pexels-safari-consoler-3290243-11196893_acnr7n.jpg'
-  },
-  {
-    lettre: 'C',
-    titre: 'Capitaliser',
-    description: "Valoriser les résultats de recherche, les expériences et savoirs locaux ; mutualiser ces connaissances pour aborder la modernisation.",
-    couleur: '#0891b2',
-    icon: 'book',
-    image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&h=400&fit=crop'
-  },
-  {
-    lettre: 'E',
-    titre: 'Établir',
-    description: "Un dialogue entre acteurs ruraux, en mutualisant énergies, idées et connaissances pour une maîtrise des techniques de production.",
-    couleur: '#16a34a',
-    icon: 'handshake',
-    image: 'https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=600&h=400&fit=crop'
-  },
-  {
-    lettre: 'R',
-    titre: 'Renforcer',
-    description: "Les compétences des agents locaux, agriculteurs et partenaires en gestion rationnelle des ressources naturelles — cœur de métier de l'ICERD.",
-    couleur: '#d97706',
-    icon: 'shield',
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop'
-  },
-  {
-    lettre: 'D',
-    titre: 'Développer',
-    description: "Une recherche conjointe pour l'émergence d'une agriculture industrielle soucieuse de l'environnement.",
-    couleur: '#7c3aed',
-    icon: 'globe',
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457580/pexels-hermaion-37899490_eqjios.jpg'
-  }
-];
-
-const CHIFFRES = [
-  { valeur: '2021', label: 'Année de création', couleur: '#1d4ed8', icon: 'calendar' },
-  { valeur: '3', label: 'Laboratoires spécialisés', couleur: '#0891b2', icon: 'flask' },
-  { valeur: '20+', label: 'Laboratoires régionaux appuyés', couleur: '#16a34a', icon: 'users' },
-  { valeur: 'ISO 17025', label: 'Exigences internationales', couleur: '#d97706', icon: 'target' }
-];
-
-const SLIDES = [
-  {
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457607/pexels-kelly-3030321_kh9yd6.jpg',
-    titre: 'Recherche environnementale',
-    description: 'Études d\'impact et préservation des écosystèmes'
-  },
-  {
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457537/pexels-topeasokere-6247764_ww3o1w.jpg',
-    titre: 'Agriculture durable',
-    description: 'Optimisation des rendements et gestion des sols'
-  },
-  {
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783439038/WhatsApp_Image_2026-07-07_at_16.43.21_rngtag.jpg',
-    titre: 'Géologie et mines',
-    description: 'Évaluation des ressources minérales et géotechnique'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&h=600&fit=crop',
-    titre: 'Innovation scientifique',
-    description: 'Recherche et développement pour l\'avenir'
-  }
-];
-
 export default function Apropos() {
   const { t } = useT();
   const [activeMission, setActiveMission] = useState(null);
   const [slideIndex, setSlideIndex] = useState(0);
+
+  // ✅ Utiliser les missions traduites
+  const MISSIONS = [
+    {
+      lettre: 'I',
+      titre: t('apropos.missions.i'),
+      description: t('apropos.missions.iDesc'),
+      couleur: '#1d4ed8',
+      icon: 'rocket',
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457504/pexels-safari-consoler-3290243-11196893_acnr7n.jpg'
+    },
+    {
+      lettre: 'C',
+      titre: t('apropos.missions.c'),
+      description: t('apropos.missions.cDesc'),
+      couleur: '#0891b2',
+      icon: 'book',
+      image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&h=400&fit=crop'
+    },
+    {
+      lettre: 'E',
+      titre: t('apropos.missions.e'),
+      description: t('apropos.missions.eDesc'),
+      couleur: '#16a34a',
+      icon: 'handshake',
+      image: 'https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=600&h=400&fit=crop'
+    },
+    {
+      lettre: 'R',
+      titre: t('apropos.missions.r'),
+      description: t('apropos.missions.rDesc'),
+      couleur: '#d97706',
+      icon: 'shield',
+      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop'
+    },
+    {
+      lettre: 'D',
+      titre: t('apropos.missions.d'),
+      description: t('apropos.missions.dDesc'),
+      couleur: '#7c3aed',
+      icon: 'globe',
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457580/pexels-hermaion-37899490_eqjios.jpg'
+    }
+  ];
+
+  // ✅ Utiliser les chiffres traduits
+  const CHIFFRES = [
+    { 
+      valeur: '2021', 
+      label: t('apropos.chiffres.creation'), 
+      couleur: '#1d4ed8', 
+      icon: 'calendar' 
+    },
+    { 
+      valeur: '3', 
+      label: t('apropos.chiffres.labos'), 
+      couleur: '#0891b2', 
+      icon: 'flask' 
+    },
+    { 
+      valeur: '20+', 
+      label: t('apropos.chiffres.regionaux'), 
+      couleur: '#16a34a', 
+      icon: 'users' 
+    },
+    { 
+      valeur: 'ISO 17025', 
+      label: t('apropos.chiffres.exigences'), 
+      couleur: '#d97706', 
+      icon: 'target' 
+    }
+  ];
+
+  // ✅ Utiliser les slides traduits
+  const SLIDES = [
+    {
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457607/pexels-kelly-3030321_kh9yd6.jpg',
+      titre: t('apropos.sousTitres.environnement'),
+      description: t('apropos.descriptions.environnement')
+    },
+    {
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457537/pexels-topeasokere-6247764_ww3o1w.jpg',
+      titre: t('apropos.sousTitres.agriculture'),
+      description: t('apropos.descriptions.agriculture')
+    },
+    {
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783439038/WhatsApp_Image_2026-07-07_at_16.43.21_rngtag.jpg',
+      titre: t('apropos.sousTitres.geologie'),
+      description: t('apropos.descriptions.geologie')
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&h=600&fit=crop',
+      titre: t('apropos.sousTitres.innovation'),
+      description: t('apropos.descriptions.innovation')
+    }
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setSlideIndex((prev) => (prev + 1) % SLIDES.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [SLIDES.length]);
 
   const goToSlide = (index) => setSlideIndex(index);
   const prevSlide = () => setSlideIndex((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
@@ -278,7 +301,7 @@ export default function Apropos() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              LE CENTRE
+              {t('pages.apropos.titre').toUpperCase()}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -294,10 +317,7 @@ export default function Apropos() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              L'ICERD — International Centre of Environmental Studies and Research for Development —
-              est une société à responsabilité limitée de droit camerounais, spécialisée dans
-              l'agriculture, l'environnement, les mines et l'étude des terrains pour la construction
-              d'ouvrages et d'infrastructures d'envergure.
+              {t('apropos.description')}
             </p>
           </div>
         </div>
@@ -387,7 +407,7 @@ export default function Apropos() {
               fontWeight: '600',
               letterSpacing: '1px'
             }}>
-              NOS MISSIONS
+              {t('apropos.missions.titre')}
             </span>
             <h2 style={{
               color: 'var(--blue-deep)',
@@ -395,7 +415,7 @@ export default function Apropos() {
               marginTop: '4px',
               fontWeight: 800
             }}>
-              I·C·E·R·D — Cinq missions complémentaires
+              I·C·E·R·D — {t('apropos.missions.sousTitre')}
             </h2>
           </div>
 
@@ -522,7 +542,7 @@ export default function Apropos() {
               borderRadius: '999px',
               marginBottom: '12px'
             }}>
-              VISION 2035
+              {t('apropos.vision.titre').toUpperCase()}
             </span>
             <h2 style={{
               color: 'var(--blue-deep)',
@@ -531,7 +551,7 @@ export default function Apropos() {
               marginBottom: '16px',
               fontWeight: 800
             }}>
-              Accompagner la Vision Cameroun 2035
+              {t('apropos.vision.titre')}
             </h2>
             <div style={{
               width: '60px',
@@ -545,11 +565,7 @@ export default function Apropos() {
               color: 'var(--text-main)',
               lineHeight: 1.9
             }}>
-              L'ICERD accompagne la vision stratégique du Cameroun à l'horizon 2035 : transformer
-              l'outil de production actuel, structuré en exploitations familiales, en une
-              agriculture moderne de grande productivité — de grandes plantations issues de la
-              fédération des champs paysans, regroupés en organisations ou coopératives pour
-              alimenter les usines de transformation.
+              {t('apropos.vision.texte')}
             </p>
             <p style={{
               fontSize: '16px',
@@ -557,9 +573,7 @@ export default function Apropos() {
               lineHeight: 1.9,
               marginTop: '16px'
             }}>
-              Depuis 2021, le Centre travaille avec le Ministère de l'Agriculture et du
-              Développement Rural (MINADER) sur l'intensification de l'agriculture et la
-              modernisation des exploitations paysannes.
+              {t('apropos.vision.partenariat')}
             </p>
           </div>
         </div>
@@ -577,18 +591,17 @@ export default function Apropos() {
               <Icon name="handshake" size={48} color="var(--blue-brand)" />
             </div>
             <h3 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--blue-deep)', marginBottom: '8px' }}>
-              Vous souhaitez collaborer avec nous ?
+              {t('apropos.cta.titre')}
             </h3>
             <p style={{ color: 'var(--text-muted)', marginBottom: '20px', fontSize: '15px', lineHeight: 1.7 }}>
-              Que ce soit pour une étude, une analyse ou un partenariat de recherche,
-              notre équipe est à votre disposition.
+              {t('apropos.cta.texte')}
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to="/contact" className="btn-lab btn-lab--primary" style={{ padding: '14px 32px' }}>
-                📄 Nous contacter
+                📄 {t('apropos.cta.contact')}
               </Link>
               <Link to="/laboratoires" className="btn-lab btn-lab--outline" style={{ padding: '14px 32px' }}>
-                🔬 Nos laboratoires
+                🔬 {t('apropos.cta.laboratoires')}
               </Link>
             </div>
           </div>

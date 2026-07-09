@@ -4,7 +4,8 @@ import { useT } from '../i18n/index.jsx';
 import { api, formatDate } from '../api.js';
 
 export default function Projets() {
-  const { t } = useT();
+  const { t, libelleCategorie } = useT();
+
   const [projets, setProjets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtreStatut, setFiltreStatut] = useState('TOUS');
@@ -55,7 +56,7 @@ export default function Projets() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 12px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement des projets...</p>
+        <p style={{ color: '#64748b' }}>{t('cms.chargement.projets')}</p>
       </div>
     );
   }
@@ -79,7 +80,7 @@ export default function Projets() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              PROJETS DE RECHERCHE
+              {t('cms.surtitre.projets')}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -95,7 +96,7 @@ export default function Projets() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Découvrez les projets de recherche menés par l'ICERD pour le développement durable du Cameroun et de l'Afrique Centrale.
+              {t('cms.intro.projets')}
             </p>
           </div>
         </div>
@@ -112,7 +113,7 @@ export default function Projets() {
                 className={`btn-lab ${filtreStatut === s ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
                 style={{ fontSize: '13px', padding: '8px 18px', cursor: 'pointer' }}
               >
-                {s}
+                {libelleCategorie(s)}
               </button>
             ))}
           </div>
@@ -179,7 +180,7 @@ export default function Projets() {
                     fontSize: '11px',
                     fontWeight: '600'
                   }}>
-                    {p.statut}
+                    {libelleCategorie(p.statut)}
                   </span>
                 </div>
 
@@ -214,7 +215,7 @@ export default function Projets() {
                     alignItems: 'center',
                     gap: '4px'
                   }}>
-                    Voir les détails →
+                    {t('cms.voirDetailsFleche')}
                   </span>
                 </div>
               </div>
@@ -223,7 +224,7 @@ export default function Projets() {
             {filtres.length === 0 && (
               <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
                 <div style={{ fontSize: '40px', marginBottom: '8px' }}>📋</div>
-                <p style={{ fontSize: '16px', fontWeight: '500' }}>Aucun projet ne correspond à ce filtre</p>
+                <p style={{ fontSize: '16px', fontWeight: '500' }}>{t('cms.vide.projets')}</p>
               </div>
             )}
           </div>

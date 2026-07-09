@@ -1,3 +1,4 @@
+// frontend/src/pages/Contact.jsx
 import { useState } from 'react';
 import { useT } from '../i18n/index.jsx';
 
@@ -49,21 +50,21 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const corps = encodeURIComponent(
-      `Nom : ${form.nom}\nEmail : ${form.email}\nTéléphone : ${form.telephone}\nObjet : ${form.objet}\n\n${form.message}`
+      `${t('contact.nom')} : ${form.nom}\n${t('contact.email')} : ${form.email}\n${t('contact.telephone')} : ${form.telephone}\n${t('contact.sujet')} : ${form.objet}\n\n${form.message}`
     );
-    window.location.href = `mailto:icerdcameroon@gmail.com?subject=${encodeURIComponent('Demande de devis — ' + form.objet)}&body=${corps}`;
+    window.location.href = `mailto:icerdcameroon@gmail.com?subject=${encodeURIComponent(t('contact.objetEmail') + ' — ' + form.objet)}&body=${corps}`;
     setEnvoye(true);
   };
 
   const objets = [
-    'Analyse de sol',
-    "Analyse d'eau",
-    'Analyse de plantes / engrais',
-    'Étude géotechnique',
-    'Cartographie',
-    "Évaluation de terres / appui-conseil",
-    'Étude environnementale',
-    'Autre'
+    t('contact.objets.sol'),
+    t('contact.objets.eau'),
+    t('contact.objets.plante'),
+    t('contact.objets.geotechnique'),
+    t('contact.objets.cartographie'),
+    t('contact.objets.terres'),
+    t('contact.objets.environnement'),
+    t('contact.objets.autre')
   ];
 
   return (
@@ -88,7 +89,7 @@ export default function Contact() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              CONTACT & DEVIS
+              {t('contact.surtitre')}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -104,8 +105,7 @@ export default function Contact() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Que vous soyez agriculteur, géologue, promoteur immobilier ou chercheur,
-              notre équipe est à votre écoute pour vous accompagner.
+              {t('contact.intro')}
             </p>
           </div>
         </div>
@@ -148,25 +148,25 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--blue-deep)' }}>
-                    Nos coordonnées
+                    {t('contact.coordonnees')}
                   </h3>
                 </div>
               </div>
 
               <div style={{ marginBottom: '16px' }}>
                 <div style={{ fontWeight: 600, color: 'var(--blue-deep)', marginBottom: '4px' }}>
-                  Adresse
+                  {t('contact.adresse')}
                 </div>
                 <p style={{ color: 'var(--text-main)' }}>
                   1, Rue 8417, Messamendongo, Yaoundé 4
                   <br />
-                  (derrière la mission catholique de Messame Ndongo, quartier Odza)
+                  {t('contact.adresseDetail')}
                 </p>
               </div>
 
               <div style={{ marginBottom: '16px' }}>
                 <div style={{ fontWeight: 600, color: 'var(--blue-deep)', marginBottom: '4px' }}>
-                  Téléphone
+                  {t('contact.telephoneLabel')}
                 </div>
                 <p style={{ color: 'var(--text-main)' }}>
                   <a href="tel:+237689035188" style={{ color: 'var(--blue-brand)' }}>+237 689 03 51 88</a>
@@ -177,7 +177,7 @@ export default function Contact() {
 
               <div style={{ marginBottom: '24px' }}>
                 <div style={{ fontWeight: 600, color: 'var(--blue-deep)', marginBottom: '4px' }}>
-                  Email
+                  {t('contact.emailLabel')}
                 </div>
                 <p>
                   <a href="mailto:icerdcameroon@gmail.com" style={{ color: 'var(--blue-brand)' }}>
@@ -186,7 +186,7 @@ export default function Contact() {
                 </p>
               </div>
 
-              {/* ===== BLOC RÉSEAUX SOCIAUX ENRICHI ===== */}
+              {/* ===== BLOC RÉSEAUX SOCIAUX ===== */}
               <div style={{
                 marginBottom: '24px',
                 padding: '16px 0',
@@ -194,7 +194,7 @@ export default function Contact() {
                 borderBottom: '1px solid var(--border-color)'
               }}>
                 <div style={{ fontWeight: 600, color: 'var(--blue-deep)', marginBottom: '12px', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Rejoignez-nous sur nos réseaux
+                  {t('contact.reseaux')}
                 </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <a 
@@ -239,7 +239,7 @@ export default function Contact() {
                   color: 'var(--blue-deep)',
                   fontWeight: 500
                 }}>
-                  🌍 Interventions : tout le Cameroun et la sous-région Afrique Centrale
+                  🌍 {t('contact.interventions')}
                 </div>
               </div>
 
@@ -260,7 +260,7 @@ export default function Contact() {
                   borderRadius: '999px',
                   border: '1px solid var(--border-color)'
                 }}>
-                  🕐 Lun-Ven : 8h - 17h
+                  🕐 {t('contact.horairesValeur')}
                 </span>
                 <span style={{
                   display: 'inline-flex',
@@ -293,17 +293,16 @@ export default function Contact() {
                 }}>
                   <div style={{ fontSize: '48px', marginBottom: '12px' }}>📧</div>
                   <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--blue-deep)', marginBottom: '8px' }}>
-                    Demande préparée !
+                    {t('contact.pret')}
                   </h3>
                   <p style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
-                    Votre demande est préparée dans votre messagerie.
-                    Envoyez-la et notre équipe vous répondra sous 48 heures ouvrées.
+                    {t('contact.pretTexte')}
                   </p>
                   <button
                     className="btn-lab btn-lab--primary"
-                    onClick={() => { setEnvoye(false); setForm({ nom: '', email: '', telephone: '', objet: 'Analyse de sol', message: '' }); }}
+                    onClick={() => { setEnvoye(false); setForm({ nom: '', email: '', telephone: '', objet: t('contact.objets.sol'), message: '' }); }}
                   >
-                    ✏️ Nouvelle demande
+                    ✏️ {t('contact.nouvelleDemande')}
                   </button>
                 </div>
               ) : (
@@ -314,18 +313,18 @@ export default function Contact() {
                     color: 'var(--blue-deep)',
                     marginBottom: '20px'
                   }}>
-                    Demande de devis
+                    {t('contact.demandeDevis')}
                   </h3>
 
                   <div className="champ-lab">
-                    <label>Nom / Organisation *</label>
+                    <label>{t('contact.nom')} *</label>
                     <input
                       type="text"
                       name="nom"
                       value={form.nom}
                       onChange={handleChange}
                       required
-                      placeholder="Votre nom ou celui de votre organisation"
+                      placeholder={t('contact.nomPlaceholder')}
                     />
                   </div>
 
@@ -354,7 +353,7 @@ export default function Contact() {
                   </div>
 
                   <div className="champ-lab">
-                    <label>Objet</label>
+                    <label>{t('contact.sujet')}</label>
                     <select
                       name="objet"
                       value={form.objet}
@@ -367,14 +366,14 @@ export default function Contact() {
                   </div>
 
                   <div className="champ-lab">
-                    <label>Votre message *</label>
+                    <label>{t('contact.message')} *</label>
                     <textarea
                       name="message"
                       value={form.message}
                       onChange={handleChange}
                       required
                       rows="5"
-                      placeholder="Décrivez votre besoin : nombre d'échantillons, localisation, culture envisagée, type d'analyse souhaité..."
+                      placeholder={t('contact.messagePlaceholder')}
                     />
                   </div>
 
@@ -385,16 +384,16 @@ export default function Contact() {
                     marginTop: '4px'
                   }}>
                     <button type="submit" className="btn-lab btn-lab--primary">
-                      📧 Préparer l'email
+                      📧 {t('contact.envoyer')}
                     </button>
                     <button
                       type="button"
                       className="btn-lab btn-lab--ghost"
                       onClick={() => {
-                        setForm({ nom: '', email: '', telephone: '', objet: 'Analyse de sol', message: '' });
+                        setForm({ nom: '', email: '', telephone: '', objet: t('contact.objets.sol'), message: '' });
                       }}
                     >
-                      🗑️ Effacer
+                      🗑️ {t('commun.effacer')}
                     </button>
                   </div>
 
@@ -403,7 +402,7 @@ export default function Contact() {
                     fontSize: '12px',
                     color: 'var(--text-muted)'
                   }}>
-                    En cliquant sur "Préparer l'email", votre client email s'ouvrira avec la demande pré-remplie.
+                    {t('contact.infoEmail')}
                   </p>
                 </form>
               )}
@@ -472,9 +471,9 @@ export default function Contact() {
         .champ-lab label {
           display: block;
           font-size: 13px;
-          fontWeight: 600;
+          font-weight: 600;
           color: var(--blue-deep);
-          marginBottom: 6px;
+          margin-bottom: 6px;
         }
 
         .champ-lab input:focus, 
@@ -518,7 +517,7 @@ export default function Contact() {
             padding: 8px 10px;
           }
           .social-btn span {
-            display: none; /* Ne garde que l'icône sur très petit écran si besoin */
+            display: none;
           }
         }
       `}</style>

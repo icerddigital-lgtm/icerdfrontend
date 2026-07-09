@@ -5,7 +5,8 @@ import { api, formatDate } from '../api.js';
 import Modal from '../components/Modal.jsx';
 
 export default function Actualites() {
-  const { t } = useT();
+  const { t, libelleCategorie } = useT();
+
   const [actualites, setActualites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -42,7 +43,7 @@ export default function Actualites() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 12px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement des actualités...</p>
+        <p style={{ color: '#64748b' }}>{t('commun.chargement')}</p>
       </div>
     );
   }
@@ -56,7 +57,7 @@ export default function Actualites() {
           onClick={() => window.location.reload()}
           style={{ marginTop: '16px' }}
         >
-          Réessayer
+          {t('commun.reessayer')}
         </button>
       </div>
     );
@@ -81,7 +82,7 @@ export default function Actualites() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              ACTUALITÉS
+              {t('pages.actualites.titre').toUpperCase()}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -97,14 +98,14 @@ export default function Actualites() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Suivez l'actualité du Centre : événements, publications, projets et innovations.
+              {t('pages.actualites.intro')}
             </p>
             <p style={{
               fontSize: '14px',
               color: 'var(--text-muted)',
               marginTop: '8px'
             }}>
-              {actualites.length} actualité{actualites.length > 1 ? 's' : ''}
+              {actualites.length} {t('pages.actualites.article')}{actualites.length > 1 ? 's' : ''}
             </p>
           </div>
         </div>
@@ -130,7 +131,8 @@ export default function Actualites() {
                 className={`btn-lab ${filtreCategorie === c ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
                 style={{ fontSize: '13px', padding: '6px 16px' }}
               >
-                {c} {c !== 'TOUTES' && `(${actualites.filter(a => a.categorie === c).length})`}
+                {libelleCategorie(c)} 
+                {c !== 'TOUTES' && `(${actualites.filter(a => a.categorie === c).length})`}
               </button>
             ))}
           </div>
@@ -143,7 +145,7 @@ export default function Actualites() {
           {filtres.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
               <div style={{ fontSize: '48px', marginBottom: '12px' }}>📰</div>
-              <p>Aucune actualité dans cette catégorie</p>
+              <p>{t('pages.actualites.aucune')}</p>
             </div>
           ) : (
             <div style={{
@@ -226,7 +228,7 @@ export default function Actualites() {
                                  a.categorie === 'Communiqué' ? '#2563eb' :
                                  'var(--text-muted)'
                         }}>
-                          {a.categorie}
+                          {libelleCategorie(a.categorie)}
                         </span>
                       )}
                     </div>
@@ -257,7 +259,7 @@ export default function Actualites() {
                         ✍️ {a.auteur || 'ICERD'}
                       </span>
                       <button className="btn-lab btn-lab--ghost btn-lab--sm">
-                        Lire la suite →
+                        {t('pages.enSavoirPlus')} →
                       </button>
                     </div>
                   </div>
@@ -347,7 +349,7 @@ export default function Actualites() {
                 className="btn-lab btn-lab--ghost" 
                 onClick={() => setSelected(null)}
               >
-                Fermer
+                {t('commun.fermer')}
               </button>
               {selected.lien && (
                 <a 
@@ -356,7 +358,7 @@ export default function Actualites() {
                   rel="noopener noreferrer"
                   className="btn-lab btn-lab--primary"
                 >
-                  En savoir plus →
+                  {t('pages.enSavoirPlus')} →
                 </a>
               )}
             </div>

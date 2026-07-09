@@ -22,7 +22,8 @@ const TYPE_BG = {
 };
 
 export default function Evenements() {
-  const { t } = useT();
+  const { t, libelleCategorie } = useT();
+
   const [evenements, setEvenements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -58,7 +59,7 @@ export default function Evenements() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 12px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement des événements...</p>
+        <p style={{ color: '#64748b' }}>{t('cms.chargement.evenements')}</p>
       </div>
     );
   }
@@ -72,7 +73,7 @@ export default function Evenements() {
           onClick={() => window.location.reload()}
           style={{ marginTop: '16px' }}
         >
-          Réessayer
+          {t('commun.reessayer')}
         </button>
       </div>
     );
@@ -97,7 +98,7 @@ export default function Evenements() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              ÉVÉNEMENTS
+              {t('cms.surtitre.evenements')}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -113,7 +114,7 @@ export default function Evenements() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Retrouvez tous les événements organisés par l'ICERD : séminaires, conférences, ateliers et formations.
+              {t('cms.intro.evenements')}
             </p>
             <p style={{
               fontSize: '14px',
@@ -139,16 +140,16 @@ export default function Evenements() {
             borderRadius: '12px',
             border: '1px solid var(--border-color)'
           }}>
-            {types.map(t => {
-              const count = t === 'TOUS' ? evenements.length : evenements.filter(e => e.type === t).length;
+            {types.map(v => {
+              const count = v === 'TOUS' ? evenements.length : evenements.filter(e => e.type === v).length;
               return (
                 <button
-                  key={t}
-                  onClick={() => setFiltreType(t)}
-                  className={`btn-lab ${filtreType === t ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
+                  key={v}
+                  onClick={() => setFiltreType(v)}
+                  className={`btn-lab ${filtreType === v ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
                   style={{ fontSize: '13px', padding: '6px 16px', cursor: 'pointer' }}
                 >
-                  {t} ({count})
+                  {libelleCategorie(v)} ({count})
                 </button>
               );
             })}
@@ -162,9 +163,9 @@ export default function Evenements() {
           {filtres.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
               <div style={{ fontSize: '48px', marginBottom: '12px' }}>📅</div>
-              <p>Aucun événement dans cette catégorie</p>
+              <p>{t('cms.vide.evenements')}</p>
               <p style={{ fontSize: '14px', marginTop: '4px' }}>
-                Revenez plus tard pour découvrir nos prochains événements
+                {t('cms.videSous.evenements')}
               </p>
             </div>
           ) : (
@@ -234,7 +235,7 @@ export default function Evenements() {
                           fontSize: '11px',
                           fontWeight: '600'
                         }}>
-                          {e.type}
+                          {libelleCategorie(e.type)}
                         </span>
                       </div>
                       
@@ -256,7 +257,7 @@ export default function Evenements() {
                       marginTop: 'auto'
                     }}>
                       <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '500' }}>
-                        {e.date_fin ? `Jusqu'au ${formatDate(e.date_fin)}` : 'Événement d\'un jour'}
+                        {e.date_fin ? `Jusqu'au ${formatDate(e.date_fin)}` : t('cms.unJour')}
                       </span>
                       
                       {isPast ? (
@@ -268,7 +269,7 @@ export default function Evenements() {
                           borderRadius: '6px',
                           fontWeight: '500'
                         }}>
-                          Terminé
+                          {t('cms.termine')}
                         </span>
                       ) : (
                         <button 

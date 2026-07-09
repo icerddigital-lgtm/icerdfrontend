@@ -55,7 +55,7 @@ const CATALOGUE_DEMO = [
 const MATRICES = ['TOUTES', 'SOL', 'EAU', 'PLANTE', 'ENGRAIS', 'MINERAI', 'HYDROCARBURE', 'AUTRE'];
 const CATEGORIES = ['TOUTES', 'ROUTINE', 'SPECIALE', 'GEOTECHNIQUE', 'CARTOGRAPHIE'];
 
-// Icônes et couleurs par matrice (SVG)
+// Icônes et couleurs par matrice
 const MATRICE_ICONS = {
   SOL: '🌱',
   EAU: '💧',
@@ -139,7 +139,7 @@ export default function Analyses() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 12px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement du catalogue...</p>
+        <p style={{ color: '#64748b' }}>{t('commun.chargement')}</p>
       </div>
     );
   }
@@ -167,7 +167,7 @@ export default function Analyses() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              CATALOGUE & TARIFS
+              {t('analyses.titre').toUpperCase()}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -183,8 +183,7 @@ export default function Analyses() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Analyses de routine et spéciales — sols, eaux, plantes, engrais, minerais, hydrocarbures.
-              Les prix affichés sont indicatifs ; un devis précis vous est remis avant tout démarrage.
+              {t('analyses.intro')}
             </p>
           </div>
         </div>
@@ -208,7 +207,7 @@ export default function Analyses() {
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px'
               }}>
-                Filtrer par matrice
+                {t('analyses.matrice')}
               </span>
             </div>
             <div style={{
@@ -241,7 +240,7 @@ export default function Analyses() {
                     }}
                   >
                     {m !== 'TOUTES' && (MATRICE_ICONS[m] || '🔬')}
-                    {m}
+                    {m === 'TOUTES' ? t('analyses.toutes') : m}
                     <span style={{
                       background: isActive ? color : 'var(--border-color)',
                       color: isActive ? 'white' : 'var(--text-muted)',
@@ -289,7 +288,7 @@ export default function Analyses() {
                     transition: 'all 0.2s ease'
                   }}
                 >
-                  {c}
+                  {t('analyses.categories.' + c) || c}
                 </button>
               ))}
             </div>
@@ -340,7 +339,7 @@ export default function Analyses() {
                 }}
               >
                 <Icon name="price" size={16} color={showPrix ? 'white' : 'var(--text-muted)'} />
-                {showPrix ? 'Prix affichés' : 'Masquer prix'}
+                {showPrix ? t('analyses.prix') : t('analyses.masquerPrix')}
               </button>
             </div>
           </div>
@@ -351,9 +350,9 @@ export default function Analyses() {
             marginBottom: '12px'
           }}>
             <Icon name="lab" size={16} color="var(--text-muted)" style={{ marginRight: '6px' }} />
-            {filtres.length} analyse{filtres.length > 1 ? 's' : ''} trouvée{filtres.length > 1 ? 's' : ''}
+            {t('analyses.resultats', { n: filtres.length })}
             {matrice !== 'TOUTES' && ` · ${matrice}`}
-            {categorie !== 'TOUTES' && ` · ${categorie}`}
+            {categorie !== 'TOUTES' && ` · ${t('analyses.categories.' + categorie) || categorie}`}
             {recherche && ` · "${recherche}"`}
           </div>
         </div>
@@ -366,7 +365,7 @@ export default function Analyses() {
             <table>
               <thead>
                 <tr>
-                  <th>Code</th>
+                  <th>{t('analyses.code')}</th>
                   <th>{t('analyses.nom')}</th>
                   <th>{t('analyses.matrice')}</th>
                   <th>{t('analyses.categorie')}</th>
@@ -416,7 +415,7 @@ export default function Analyses() {
                             a.categorie === 'CARTOGRAPHIE' ? '#16a34a' :
                             'var(--text-muted)'
                         }}>
-                          {a.categorie}
+                          {t('analyses.categories.' + a.categorie) || a.categorie}
                         </span>
                       </td>
                       <td style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
@@ -433,7 +432,7 @@ export default function Analyses() {
                         gap: '4px'
                       }}>
                         <Icon name="time" size={14} color="var(--text-muted)" />
-                        {a.delai_jours} j
+                        {t('analyses.jours', { n: a.delai_jours })}
                       </td>
                       {showPrix && (
                         <td style={{
@@ -475,7 +474,7 @@ export default function Analyses() {
             fontSize: '13px',
             color: 'var(--text-muted)'
           }}>
-            <span>📋 {filtres.length} analyse{filtres.length > 1 ? 's' : ''} affichée{filtres.length > 1 ? 's' : ''}</span>
+            <span>📋 {t('analyses.resultats', { n: filtres.length })}</span>
             <span>🔬 Méthodes normalisées • ISO 17025</span>
           </div>
         </div>
@@ -495,31 +494,29 @@ export default function Analyses() {
           }}>
             <Icon name="lab" size={36} color="var(--blue-brand)" />
             <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--blue-deep)', marginTop: '8px', marginBottom: '8px' }}>
-              Vous avez un projet ?
+              {t('analyses.cta.titre')}
             </h3>
             <p style={{ color: 'var(--text-muted)', marginBottom: '16px', fontSize: '15px' }}>
-              Besoin d'un devis personnalisé ou d'une analyse spécifique ?
-              Notre équipe vous répond sous 48 heures.
+              {t('analyses.cta.texte')}
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href="/contact" className="btn-lab btn-lab--primary" style={{ padding: '12px 28px' }}>
-                📄 Demander un devis
+                📄 {t('analyses.cta.devis')}
               </a>
               <a href="/laboratoires" className="btn-lab btn-lab--outline" style={{ padding: '12px 28px' }}>
-                🔬 Nos laboratoires
+                🔬 {t('analyses.cta.laboratoires')}
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Styles avancés intégrés - Filtres et Lignes réactives */}
+      {/* Styles CSS */}
       <style>{`
         @keyframes spin {
           to { transform: rotate(360deg); }
         }
 
-        /* --- Alignement et Style des Filtres Principaux --- */
         .matrice-btn {
           outline: none;
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -556,7 +553,6 @@ export default function Analyses() {
           filter: brightness(0.95);
         }
 
-        /* --- Structure Épurée du Tableau --- */
         .custom-table-container {
           border: 1px solid rgba(0, 0, 0, 0.05) !important;
           border-radius: 12px !important;
@@ -586,7 +582,6 @@ export default function Analyses() {
           transition: background-color 0.15s ease;
         }
 
-        /* Interaction fluide sur les lignes du tableau */
         .table-row-interactive {
           transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
@@ -594,7 +589,6 @@ export default function Analyses() {
           background-color: rgba(29, 78, 216, 0.015) !important;
         }
 
-        /* --- Badges & Micro-éléments --- */
         .matrice-badge {
           transition: transform 0.2s ease;
         }

@@ -50,7 +50,8 @@ const Icon = ({ name, size = 20, color = '#1d4ed8' }) => {
 };
 
 export default function Galerie() {
-  const { t } = useT();
+  const { t, libelleCategorie } = useT();
+
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -90,7 +91,7 @@ export default function Galerie() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 16px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement de la galerie...</p>
+        <p style={{ color: '#64748b' }}>{t('cms.chargement.galerie')}</p>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
@@ -105,7 +106,7 @@ export default function Galerie() {
           onClick={() => window.location.reload()}
           style={{ marginTop: '16px' }}
         >
-          Réessayer
+          {t('commun.reessayer')}
         </button>
       </div>
     );
@@ -147,7 +148,7 @@ export default function Galerie() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Découvrez en images nos laboratoires, nos équipes et nos activités de recherche.
+              {t('cms.intro.galerie')}
             </p>
             <p style={{
               fontSize: '14px',
@@ -185,7 +186,7 @@ export default function Galerie() {
                     className={`btn-lab ${categorie === c ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
                     style={{ fontSize: '12px', padding: '4px 14px' }}
                   >
-                    {c} {c !== 'TOUTES' && <span style={{ fontSize: '10px', opacity: 0.7 }}>({count})</span>}
+                    {libelleCategorie(c)} {c !== 'TOUTES' && <span style={{ fontSize: '10px', opacity: 0.7 }}>({count})</span>}
                   </button>
                 );
               })}
@@ -233,8 +234,8 @@ export default function Galerie() {
           {filtres.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '80px 20px', color: '#94a3b8' }}>
               <div style={{ fontSize: '64px', marginBottom: '16px' }}>🖼️</div>
-              <p style={{ fontSize: '18px', fontWeight: 500 }}>Aucune photo dans cette catégorie</p>
-              <p style={{ fontSize: '14px' }}>Explorez d'autres catégories ou revenez plus tard</p>
+              <p style={{ fontSize: '18px', fontWeight: 500 }}>{t('cms.vide.galerie')}</p>
+              <p style={{ fontSize: '14px' }}>{t('cms.videSous.galerie')}</p>
             </div>
           ) : (
             <div style={{
@@ -309,7 +310,7 @@ export default function Galerie() {
                       backdropFilter: 'blur(4px)',
                       letterSpacing: '0.3px'
                     }}>
-                      {p.categorie}
+                      {libelleCategorie(p.categorie)}
                     </span>
                   </div>
 
@@ -351,7 +352,7 @@ export default function Galerie() {
                     }}>
                       <span>📅 {p.date_upload ? new Date(p.date_upload).toLocaleDateString('fr-FR') : '—'}</span>
                       <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        👁️ Voir détails
+                        👁️ {t('cms.voirPhoto')}
                         <span style={{ fontSize: '16px' }}>→</span>
                       </span>
                     </div>

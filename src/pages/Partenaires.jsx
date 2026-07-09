@@ -22,7 +22,8 @@ const TYPE_BG = {
 };
 
 export default function Partenaires() {
-  const { t } = useT();
+  const { t, libelleCategorie } = useT();
+
   const [partenaires, setPartenaires] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
@@ -58,7 +59,7 @@ export default function Partenaires() {
           animation: 'spin 0.8s linear infinite',
           margin: '0 auto 12px'
         }}></div>
-        <p style={{ color: '#64748b' }}>Chargement des partenaires...</p>
+        <p style={{ color: '#64748b' }}>{t('cms.chargement.partenaires')}</p>
       </div>
     );
   }
@@ -72,7 +73,7 @@ export default function Partenaires() {
           onClick={() => window.location.reload()}
           style={{ marginTop: '16px' }}
         >
-          Réessayer
+          {t('commun.reessayer')}
         </button>
       </div>
     );
@@ -98,7 +99,7 @@ export default function Partenaires() {
               display: 'block',
               marginBottom: '8px'
             }}>
-              NOS PARTENAIRES
+              {t('cms.surtitre.partenaires')}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -114,7 +115,7 @@ export default function Partenaires() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              L'ICERD collabore avec des partenaires institutionnels, académiques et internationaux pour la recherche et le développement durable.
+              {t('cms.intro.partenaires')}
             </p>
             <p style={{
               fontSize: '14px',
@@ -140,17 +141,17 @@ export default function Partenaires() {
             borderRadius: '12px',
             border: '1px solid var(--border-color)'
           }}>
-            {types.map(t => {
+            {types.map(v => {
               // Calcul dynamique du nombre d'éléments par type pour les filtres
-              const count = t === 'TOUS' ? partenaires.length : partenaires.filter(p => p.type === t).length;
+              const count = v === 'TOUS' ? partenaires.length : partenaires.filter(p => p.type === v).length;
               return (
                 <button
-                  key={t}
-                  onClick={() => setFiltreType(t)}
-                  className={`btn-lab ${filtreType === t ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
+                  key={v}
+                  onClick={() => setFiltreType(v)}
+                  className={`btn-lab ${filtreType === v ? 'btn-lab--primary' : 'btn-lab--ghost'}`}
                   style={{ fontSize: '13px', padding: '6px 16px', cursor: 'pointer' }}
                 >
-                  {t} ({count})
+                  {libelleCategorie(v)} ({count})
                 </button>
               );
             })}
@@ -164,7 +165,7 @@ export default function Partenaires() {
           {filtres.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
               <div style={{ fontSize: '48px', marginBottom: '12px' }}>🤝</div>
-              <p>Aucun partenaire dans cette catégorie</p>
+              <p>{t('cms.vide.partenaires')}</p>
             </div>
           ) : (
             <div style={{
@@ -232,11 +233,11 @@ export default function Partenaires() {
                     padding: '3px 12px',
                     borderRadius: '6px'
                   }}>
-                    {p.type}
+                    {libelleCategorie(p.type)}
                   </span>
                   
                   <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '12px', lineHeight: '1.5', minHeight: '38px' }}>
-                    {p.description || "Aucune description fournie."}
+                    {p.description || t('cms.aucuneDescription')}
                   </p>
                   
                   <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'center' }}>
@@ -256,7 +257,7 @@ export default function Partenaires() {
                           textDecoration: 'none'
                         }}
                       >
-                        🔗 Visiter le site →
+                        🔗 {t('cms.visiterSite')} →
                       </a>
                     )}
                     
@@ -295,8 +296,7 @@ export default function Partenaires() {
               Devenir partenaire
             </h3>
             <p style={{ fontSize: '15px', color: 'var(--text-muted)', marginBottom: '20px', lineHeight: 1.6 }}>
-              Vous souhaitez collaborer avec l'ICERD ? Rejoignez notre réseau de partenaires
-              pour contribuer à la recherche et au développement durable.
+              {t('cms.collaborerTitre')} {t('cms.collaborerTexte')}
             </p>
             <button 
               className="btn-lab btn-lab--primary"

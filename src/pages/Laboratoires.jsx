@@ -45,82 +45,84 @@ const Icon = ({ name, size = 24, color = '#1d4ed8', className = '' }) => {
   );
 };
 
-const LABOS = [
-  {
-    code: 'ICEPC-LAB',
-    nom: "Laboratoire d'analyses physicochimiques",
-    icon: 'flask',
-    couleur: '#1d4ed8',
-    bgGradient: 'linear-gradient(135deg, #1d4ed8, #0f2d80)',
-    image: 'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&h=500&fit=crop',
-    texte: "Analyses physicochimiques et physiques des roches, sols, eaux, engrais et pesticides, avec une technologie de pointe répondant aux exigences internationales définies par la norme ISO 17025.",
-    prestations: [
-      "Examen des sols in situ (prospection pédologique avec prélèvement)",
-      "Analyses agrochimiques : évaluation de l'aptitude agricole des terres, doses de fertilisants, estimation des rendements",
-      "Analyses physiques : aptitude à la mécanisation, susceptibilité à l'érosion, réserve d'eau du sol"
-    ],
-    appareils: "AAS · GFAAS · ICP-OES · GC · HPLC · FIMS (mercure) · TOC · Spectrométrie de masse · Photométrie de flamme · Titrimétrie automatique",
-    accreditations: ['ISO 17025', 'COFRAC'],
-    stats: '1500+ analyses/an'
-  },
-  {
-    code: 'ICGTEC-LAB',
-    nom: "Laboratoire d'analyses géotechniques",
-    icon: 'geo',
-    couleur: '#0891b2',
-    bgGradient: 'linear-gradient(135deg, #0891b2, #0e7490)',
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783461255/pexels-pixabay-248152_tg1a6m.jpg',
-    texte: "Détermine les caractéristiques mécaniques des sols en vue de prescrire la meilleure formulation pour les fondations et les constructions. Capable de réaliser de nombreux types d'essais, y compris les essais spéciaux.",
-    prestations: [
-      "Teneur en eau (ASTM D2216), poids spécifique (ASTM D854)",
-      "Limites d'Atterberg, Proctor, CBR",
-      "Essais pénétrométriques in situ, stabilité structurale des sols"
-    ],
-    appareils: "Pénétromètre dynamique · Presses d'essais · Tamiseurs · Étuves normalisées",
-    accreditations: ['ISO 17025', 'ASTM'],
-    stats: '500+ essais/an'
-  },
-  {
-    code: 'ICEMAP-LAB',
-    nom: "Laboratoire de géomatique et cartographie thématique",
-    icon: 'map',
-    couleur: '#16a34a',
-    bgGradient: 'linear-gradient(135deg, #16a34a, #15803d)',
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783461258/pexels-ishaanaggarwal-8231152_maz98c.jpg',
-    texte: "Grâce à des outils de pointe, production de cartes thématiques fiables et stratégiques, indispensables à la planification, à la gestion et à l'aménagement efficace des territoires.",
-    prestations: [
-      "Cartes géologiques, pédologiques et forestières",
-      "Plans d'aménagement parcellaire",
-      "Levés GPS et télédétection"
-    ],
-    appareils: "SIG · GPS différentiel · Imagerie satellitaire",
-    accreditations: ['ISO 17025', 'IGN'],
-    stats: '200+ cartes produites'
-  }
-];
-
-const SLIDES = [
-  {
-    image: 'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=1200&h=500&fit=crop',
-    titre: 'Analyse physicochimique de précision',
-    description: 'Technologies de pointe pour des résultats fiables'
-  },
-  {
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783438638/view-heavy-machinery-used-construction-industry_n11bly.jpg',
-    titre: 'Géotechnique et mécanique des sols',
-    description: 'Études approfondies pour la construction durable'
-  },
-  {
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783461279/pexels-ian-panelo-4715450_oqpras.jpg',
-    titre: 'Cartographie et géomatique',
-    description: 'Visualisation et analyse des territoires'
-  }
-];
-
 export default function Laboratoires() {
   const { t } = useT();
   const [slideIndex, setSlideIndex] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
+
+  // ✅ Laboratoires traduits
+  const LABOS = [
+    {
+      code: 'ICEPC-LAB',
+      nom: t('laboratoires.icepc.nom'),
+      icon: 'flask',
+      couleur: '#1d4ed8',
+      bgGradient: 'linear-gradient(135deg, #1d4ed8, #0f2d80)',
+      image: 'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&h=500&fit=crop',
+      texte: t('laboratoires.icepc.texte'),
+      prestations: [
+        t('laboratoires.icepc.prestations.0'),
+        t('laboratoires.icepc.prestations.1'),
+        t('laboratoires.icepc.prestations.2')
+      ],
+      appareils: t('laboratoires.icepc.appareils'),
+      accreditations: ['ISO 17025', 'COFRAC'],
+      stats: '1500+ ' + t('laboratoires.icepc.stats')
+    },
+    {
+      code: 'ICGTEC-LAB',
+      nom: t('laboratoires.icgtec.nom'),
+      icon: 'geo',
+      couleur: '#0891b2',
+      bgGradient: 'linear-gradient(135deg, #0891b2, #0e7490)',
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783461255/pexels-pixabay-248152_tg1a6m.jpg',
+      texte: t('laboratoires.icgtec.texte'),
+      prestations: [
+        t('laboratoires.icgtec.prestations.0'),
+        t('laboratoires.icgtec.prestations.1'),
+        t('laboratoires.icgtec.prestations.2')
+      ],
+      appareils: t('laboratoires.icgtec.appareils'),
+      accreditations: ['ISO 17025', 'ASTM'],
+      stats: '500+ ' + t('laboratoires.icgtec.stats')
+    },
+    {
+      code: 'ICEMAP-LAB',
+      nom: t('laboratoires.icemap.nom'),
+      icon: 'map',
+      couleur: '#16a34a',
+      bgGradient: 'linear-gradient(135deg, #16a34a, #15803d)',
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783461258/pexels-ishaanaggarwal-8231152_maz98c.jpg',
+      texte: t('laboratoires.icemap.texte'),
+      prestations: [
+        t('laboratoires.icemap.prestations.0'),
+        t('laboratoires.icemap.prestations.1'),
+        t('laboratoires.icemap.prestations.2')
+      ],
+      appareils: t('laboratoires.icemap.appareils'),
+      accreditations: ['ISO 17025', 'IGN'],
+      stats: '200+ ' + t('laboratoires.icemap.stats')
+    }
+  ];
+
+  // ✅ Slides traduits
+  const SLIDES = [
+    {
+      image: 'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=1200&h=500&fit=crop',
+      titre: t('laboratoires.slides.0.titre'),
+      description: t('laboratoires.slides.0.description')
+    },
+    {
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783438638/view-heavy-machinery-used-construction-industry_n11bly.jpg',
+      titre: t('laboratoires.slides.1.titre'),
+      description: t('laboratoires.slides.1.description')
+    },
+    {
+      image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783461279/pexels-ian-panelo-4715450_oqpras.jpg',
+      titre: t('laboratoires.slides.2.titre'),
+      description: t('laboratoires.slides.2.description')
+    }
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -235,7 +237,7 @@ export default function Laboratoires() {
               display: 'block',
               marginBottom: '6px'
             }}>
-              NOS LABORATOIRES
+              {t('laboratoires.hero.surtitre')}
             </span>
             <h1 style={{
               color: 'var(--blue-deep)',
@@ -251,8 +253,7 @@ export default function Laboratoires() {
               color: 'var(--text-main)',
               lineHeight: 1.7
             }}>
-              Équipements scientifiques modernes, expertise technique remarquable —
-              pour l'exactitude et la finesse des résultats.
+              {t('laboratoires.hero.description')}
             </p>
           </div>
         </div>
@@ -437,7 +438,7 @@ export default function Laboratoires() {
                           textTransform: 'uppercase',
                           letterSpacing: '0.5px'
                         }}>
-                          Prestations
+                          {t('laboratoires.prestations')}
                         </span>
                       </div>
                       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
@@ -488,7 +489,7 @@ export default function Laboratoires() {
                           textTransform: 'uppercase',
                           letterSpacing: '0.5px'
                         }}>
-                          Appareillage
+                          {t('laboratoires.appareillage')}
                         </span>
                       </div>
                       <p style={{
@@ -552,32 +553,30 @@ export default function Laboratoires() {
           }}>
             <Icon name="lab" size={40} color="var(--blue-brand)" />
             <h3 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--blue-deep)', marginTop: '8px', marginBottom: '8px' }}>
-              Besoin d'une analyse spécifique ?
+              {t('laboratoires.cta.titre')}
             </h3>
             <p style={{ color: 'var(--text-muted)', marginBottom: '16px', fontSize: '15px' }}>
-              Nos laboratoires sont à votre disposition pour tous vos projets.
-              Contactez-nous pour un devis personnalisé.
+              {t('laboratoires.cta.texte')}
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to="/analyses" className="btn-lab btn-lab--primary" style={{ padding: '12px 28px' }}>
-                📋 Voir le catalogue
+                📋 {t('laboratoires.cta.catalogue')}
               </Link>
               <Link to="/contact" className="btn-lab btn-lab--outline" style={{ padding: '12px 28px' }}>
-                📄 Demander un devis
+                📄 {t('laboratoires.cta.devis')}
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Améliorations Graphiques Avancées, Contours, Onglets & Transitions Micro-interactives */}
+      {/* Styles CSS */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Animation et style des Onglets (Tabs) --- */
         .onglet-trigger {
           outline: none;
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -595,10 +594,9 @@ export default function Laboratoires() {
           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
         }
 
-        /* --- Design Épuré de la Carte Principale --- */
         .lab-main-card {
           border: 1px solid rgba(0, 0, 0, 0.06) !important;
-          border-radius: 16px !important; /* Adoucissement des angles */
+          border-radius: 16px !important;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03) !important;
           transition: box-shadow 0.3s ease;
         }
@@ -607,7 +605,6 @@ export default function Laboratoires() {
           box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05) !important;
         }
 
-        /* --- Éléments du Carrousel (Dots) --- */
         .carousel-dot {
           outline: none;
           transition: all 0.2s ease !important;
@@ -616,7 +613,6 @@ export default function Laboratoires() {
           transform: scale(1.2);
         }
 
-        /* --- Blocs Internes de Données --- */
         .stat-box {
           border: 1px solid rgba(0, 0, 0, 0.04) !important;
           border-left-width: 3.5px !important;

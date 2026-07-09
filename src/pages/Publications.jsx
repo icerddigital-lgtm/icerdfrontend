@@ -118,7 +118,7 @@ export default function Publications() {
               padding: '4px 12px',
               borderRadius: '20px'
             }}>
-              Index de la recherche scientifique
+              {t('publications.indexTitre')}
             </span>
             <h1 style={{
               color: 'var(--blue-deep, #0f172a)',
@@ -131,7 +131,7 @@ export default function Publications() {
               {t('pages.publications.titre')}
             </h1>
             <p style={{ fontSize: '18px', color: 'var(--text-main, #334155)', lineHeight: 1.6, marginBottom: '32px' }}>
-              Découvrez les publications scientifiques de l'ICERD, reflets de notre engagement pour l'environnement, l'agriculture résiliente et le développement durable.
+              {t('pages.publications.intro')}
             </p>
 
             {/* BARRE DE STATS LOOK DASHBOARD MINIMALISTE */}
@@ -159,7 +159,7 @@ export default function Publications() {
                   <Icon name="chart" size={16} />
                 </div>
                 <span style={{ fontSize: '14px', color: 'var(--text-main, #0f172a)', fontWeight: '600' }}>
-                  {stats.total} <span style={{ fontWeight: '400', color: '#64748b' }}>travaux indexés</span>
+                  {stats.total} <span style={{ fontWeight: '400', color: '#64748b' }}>{t('publications.travauxIndexes')}</span>
                 </span>
               </div>
               <div style={{ width: '1px', background: '#e2e8f0', height: '18px' }} className="hide-mobile" />
@@ -201,7 +201,7 @@ export default function Publications() {
                       border: 'none', fontWeight: categorie === c ? '600' : '400', cursor: 'pointer'
                     }}
                   >
-                    {c}
+                    {t('publications.categories.' + c) || c}
                   </button>
                 ))}
               </div>
@@ -212,13 +212,13 @@ export default function Publications() {
                   onChange={e => { setAnnee(e.target.value); setPage(1); }}
                   style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '13px', background: 'white' }}
                 >
-                  {ANNEES.map(a => <option key={a} value={a}>{a === 'TOUTES' ? 'Toutes les années' : a}</option>)}
+                  {ANNEES.map(a => <option key={a} value={a}>{a === 'TOUTES' ? t('publications.toutesAnnees') : a}</option>)}
                 </select>
 
                 <div style={{ position: 'relative' }}>
                   <input
                     type="text"
-                    placeholder="Rechercher..."
+                    placeholder={t('publications.rechercher')}
                     value={recherche}
                     onChange={e => { setRecherche(e.target.value); setPage(1); }}
                     style={{ padding: '10px 16px 10px 38px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '13px', width: '180px' }}
@@ -276,7 +276,7 @@ export default function Publications() {
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                         <span style={{ background: badge.bg, color: badge.text, border: `1px solid ${badge.border}`, fontSize: '11px', fontWeight: '600', padding: '2px 10px', borderRadius: '6px', textTransform: 'uppercase' }}>
-                          {p.categorie}
+                          {t('publications.categories.' + p.categorie) || p.categorie}
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px', color: '#64748b' }}>
                           <Icon name="calendar" size={13} color="#94a3b8" />
@@ -323,7 +323,9 @@ export default function Publications() {
             {/* Titre alternatif sans image si pas d'image_url */}
             {!selected.image_url && (
               <div style={{ padding: '24px 32px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--blue-brand, #1d4ed8)', letterSpacing: '1px' }}>Détails document</span>
+                <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: 'var(--blue-brand, #1d4ed8)', letterSpacing: '1px' }}>
+                  {t('publications.detailsDocument')}
+                </span>
                 <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#94a3b8' }}>✕</button>
               </div>
             )}
@@ -331,17 +333,19 @@ export default function Publications() {
             <div style={{ padding: '32px', maxHeight: selected.image_url ? 'calc(100vh - 420px)' : 'calc(100vh - 220px)', overflowY: 'auto' }}>
               <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '14px' }}>
                 <span style={{ fontSize: '12px', background: getBadgeStyles(selected.categorie).bg, color: getBadgeStyles(selected.categorie).text, padding: '4px 12px', borderRadius: '6px', fontWeight: '600', textTransform: 'uppercase' }}>
-                  {selected.categorie}
+                  {t('publications.categories.' + selected.categorie) || selected.categorie}
                 </span>
                 <span style={{ fontSize: '13px', color: '#64748b' }}>
-                  📅 Écrit le {formatDate(selected.date_publication)}
+                  📅 {t('publications.ecritLe')} {formatDate(selected.date_publication)}
                 </span>
               </div>
 
               <h2 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--blue-deep, #0f172a)', lineHeight: 1.3, marginBottom: '10px' }}>{selected.titre}</h2>
               <p style={{ color: 'var(--blue-brand, #1d4ed8)', fontSize: '15px', fontWeight: '500', marginBottom: '24px' }}>{selected.auteurs}</p>
               
-              <h4 style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.5px', marginBottom: '8px' }}>Résumé / Abstract</h4>
+              <h4 style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#94a3b8', letterSpacing: '0.5px', marginBottom: '8px' }}>
+                {t('publications.resume')}
+              </h4>
               <p style={{ fontSize: '15px', color: 'var(--text-main, #334155)', lineHeight: 1.7, whiteSpace: 'pre-wrap', background: '#f8fafc', padding: '20px', borderRadius: '10px', border: '1px solid #f1f5f9' }}>
                 {selected.resume}
               </p>
@@ -352,11 +356,11 @@ export default function Publications() {
                 <a href={`https://doi.org/${selected.doi}`} target="_blank" rel="noopener noreferrer" style={{
                   color: 'white', background: 'var(--blue-brand, #1d4ed8)', textDecoration: 'none', padding: '10px 20px', borderRadius: '8px', fontSize: '14px', fontWeight: '500'
                 }}>
-                  Consulter la source (DOI)
+                  {t('publications.consulterSource')}
                 </a>
               ) : <div />}
               <button style={{ background: 'white', border: '1px solid #cbd5e1', padding: '10px 20px', borderRadius: '8px', fontSize: '14px', cursor: 'pointer', color: '#475569', fontWeight: '500' }} onClick={() => setSelected(null)}>
-                Fermer
+                {t('commun.fermer')}
               </button>
             </div>
 

@@ -9,27 +9,27 @@ const divisions = (t) => [
     titre: t('accueil.div1Titre'),
     icone: '🌿',
     couleur: '#1d4ed8',
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457614/pexels-nessah-32391849_hbpgfx.jpg',
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop',
     texte: t('accueil.div1Texte'),
-    stats: '15+ projets réalisés'
+    stats: t('accueil.statsProjetsEnv')
   },
   { 
     code: 'DIVISION 02', 
     titre: t('accueil.div2Titre'),
     icone: '🌾',
     couleur: '#16a34a',
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457537/pexels-topeasokere-6247764_ww3o1w.jpg',
-    texte: "Appréciation de la quality des sols, de l'eau et des intrants pour une gestion rationnelle et durable. Analyses rentables et rapides des sols, plantes et intrants. Irrigation des périmètres et gestion de l'eau.",
-    stats: '20+ projets réalisés'
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop',
+    texte: t('accueil.div2Texte'),
+    stats: t('accueil.statsProjetsAgri')
   },
   { 
     code: 'DIVISION 03', 
     titre: t('accueil.div3Titre'),
     icone: '⛏️',
     couleur: '#b4552d',
-    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783438732/portrait-engineers-work-hours-job-site_j1u0dj.jpg',
-    texte: "Évaluation des teneurs minérales des substrats, extraction minière respectueuse de l'environnement, détermination des paramètres géotechniques pour la construction d'ouvrages.",
-    stats: '10+ projets réalisés'
+    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop',
+    texte: t('accueil.div3Texte'),
+    stats: t('accueil.statsProjetsMine')
   },
 ];
 
@@ -77,7 +77,6 @@ const LogoICERD = ({ size = 80 }) => {
           onError={() => setImageError(true)}
         />
       ) : (
-        // Fallback SVG si l'image ne charge pas
         <div style={{
           width: size,
           height: size,
@@ -150,7 +149,6 @@ export default function Accueil() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Décoration de fond */}
         <div style={{
           position: 'absolute',
           right: '-10%',
@@ -182,7 +180,6 @@ export default function Accueil() {
             
             {/* TEXTE */}
             <div style={{ position: 'relative' }}>
-              {/* === Trame de points bleus au fond (derrière le logo et texte) === */}
               <div style={{
                 position: 'absolute',
                 top: '-60px',
@@ -193,7 +190,7 @@ export default function Accueil() {
                 backgroundSize: '15px 15px',
                 borderRadius: '50%',
                 opacity: 0.6,
-                zIndex: -1, // Derrière le texte
+                zIndex: -1,
                 pointerEvents: 'none'
               }}></div>
               
@@ -212,7 +209,7 @@ export default function Accueil() {
                   borderRadius: '999px',
                   marginBottom: '16px'
                 }}>
-                  CENTRE DE RECHERCHE · YAOUNDÉ, CAMEROUN
+                  {t('accueil.surtitre').toUpperCase()}
                 </div>
                 <h1 style={{
                   color: 'var(--blue-deep)',
@@ -331,7 +328,7 @@ export default function Accueil() {
                     marginTop: '12px',
                     letterSpacing: '1px'
                   }}>
-                    QUALITÉ ANALYTIQUE CERTIFIÉE
+                    {t('accueil.qualiteCertifiee').toUpperCase()}
                   </div>
                 </div>
 
@@ -347,9 +344,9 @@ export default function Accueil() {
                   gap: '4px 16px'
                 }}>
                   <span style={{ color: 'var(--blue-brand)' }}>✓ ISO 17025</span>
-                  <span style={{ color: 'var(--text-main)' }}>Accréditation</span>
+                  <span style={{ color: 'var(--text-main)' }}>{t('accueil.exigences')}</span>
                   <span style={{ color: 'var(--orange-brand)' }}>✓ MINADER</span>
-                  <span style={{ color: 'var(--text-main)' }}>Partenaire 2021</span>
+                  <span style={{ color: 'var(--text-main)' }}>{t('accueil.partenaireDepuis')}</span>
                 </div>
               </div>
             </div>
@@ -371,10 +368,10 @@ export default function Accueil() {
             gap: '20px'
           }}>
             {[
-              { valeur: 'ISO 17025', label: 'Exigences internationales', couleur: 'var(--blue-brand)', icone: '🏅' },
-              { valeur: '3', label: 'Laboratoires spécialisés', couleur: 'var(--blue-deep)', icone: '🔬' },
-              { valeur: '20+', label: 'Laboratoires régionaux appuyés', couleur: 'var(--orange-brand)', icone: '🌍' },
-              { valeur: 'MINADER', label: 'Partenaire depuis 2021', couleur: 'var(--blue-brand)', icone: '🤝' }
+              { valeur: 'ISO 17025', label: t('accueil.exigences'), couleur: 'var(--blue-brand)', icone: '🏅' },
+              { valeur: '3', label: t('accueil.compteurLabos'), couleur: 'var(--blue-deep)', icone: '🔬' },
+              { valeur: '20+', label: t('accueil.compteurRegionaux'), couleur: 'var(--orange-brand)', icone: '🌍' },
+              { valeur: 'MINADER', label: t('accueil.partenaireDepuis'), couleur: 'var(--blue-brand)', icone: '🤝' }
             ].map((item, index) => (
               <div 
                 key={index} 
@@ -416,7 +413,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* ===== DIVISIONS AVEC IMAGES INTERNET ===== */}
+      {/* ===== DIVISIONS AVEC IMAGES ===== */}
       <section className="section section--white" style={{ padding: '80px 0' }}>
         <div className="conteneur">
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
@@ -466,7 +463,6 @@ export default function Accueil() {
                   e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
                 }}
               >
-                {/* Image en haut de la carte */}
                 <div style={{
                   height: '200px',
                   background: `url(${d.image}) center/cover no-repeat`,
@@ -505,7 +501,6 @@ export default function Accueil() {
                   </div>
                 </div>
 
-                {/* Contenu */}
                 <div style={{ padding: '24px 28px 28px' }}>
                   <h3 style={{ 
                     color: 'var(--blue-deep)', 
@@ -546,7 +541,7 @@ export default function Accueil() {
                         gap: '4px'
                       }}
                     >
-                      En savoir plus →
+                      {t('pages.enSavoirPlus')} →
                     </Link>
                   </div>
                 </div>
@@ -643,7 +638,7 @@ export default function Accueil() {
                       fontWeight: 600,
                       letterSpacing: '0.5px'
                     }}>
-                      ÉTAPE {etape.code}
+                      {t('pages.etape')} {etape.code}
                     </span>
                     <h3 style={{
                       color: 'var(--blue-deep)',
@@ -741,19 +736,17 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* Améliorations Graphiques Globales, Contours, Onglets & Animations Micro-interactives */}
       <style>{`
         @keyframes pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.4; transform: scale(0.96); }
         }
 
-        /* --- Animation et Layout des Onglets/Boutons principaux --- */
         .btn-lab {
           position: relative;
           overflow: hidden;
           outline: none;
-          border-radius: 10px !important; /* Lissage global des contours */
+          border-radius: 10px !important;
           border-width: 1.5px !important;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02), 0 1px 0 rgba(255, 255, 255, 0.1) inset;
           transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
@@ -770,7 +763,6 @@ export default function Accueil() {
           filter: brightness(0.95);
         }
 
-        /* --- Raffinement des Cartes Laboratoires & Divisions --- */
         .carte-lab {
           background: #ffffff !important;
           border-radius: 16px !important;
@@ -782,7 +774,6 @@ export default function Accueil() {
           border-color: rgba(0, 0, 0, 0.03) !important;
         }
 
-        /* Animation au survol du lien fléché interne */
         .link-division-more {
           transition: transform 0.2s ease, opacity 0.2s ease;
         }
@@ -790,21 +781,18 @@ export default function Accueil() {
           transform: translateX(4px);
         }
 
-        /* --- Raffinement des Étapes du Parcours --- */
         .etape-card {
           border: 1px solid rgba(0, 0, 0, 0.05) !important;
           border-radius: 16px !important;
           background: #ffffff !important;
         }
 
-        /* --- Compteurs & Grid Items --- */
         .compteur-item {
           border: 1px solid rgba(0, 0, 0, 0.05) !important;
           border-radius: 14px !important;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
         }
 
-        /* Ajustement des images pour éviter les angles bruts */
         .carte-lab img, .carte-lab div:first-child {
           border-top-left-radius: 12px;
           border-top-right-radius: 12px;
