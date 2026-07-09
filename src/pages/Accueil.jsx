@@ -9,7 +9,7 @@ const divisions = (t) => [
     titre: t('accueil.div1Titre'),
     icone: '🌿',
     couleur: '#1d4ed8',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop',
+    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457614/pexels-nessah-32391849_hbpgfx.jpg',
     texte: t('accueil.div1Texte'),
     stats: t('accueil.statsProjetsEnv')
   },
@@ -18,7 +18,7 @@ const divisions = (t) => [
     titre: t('accueil.div2Titre'),
     icone: '🌾',
     couleur: '#16a34a',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop',
+    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783457537/pexels-topeasokere-6247764_ww3o1w.jpg',
     texte: t('accueil.div2Texte'),
     stats: t('accueil.statsProjetsAgri')
   },
@@ -27,7 +27,7 @@ const divisions = (t) => [
     titre: t('accueil.div3Titre'),
     icone: '⛏️',
     couleur: '#b4552d',
-    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop',
+    image: 'https://res.cloudinary.com/y4wao1xm/image/upload/v1783438732/portrait-engineers-work-hours-job-site_j1u0dj.jpg',
     texte: t('accueil.div3Texte'),
     stats: t('accueil.statsProjetsMine')
   },
@@ -55,9 +55,16 @@ const etapes = (t) => [
     icone: '📄',
     couleur: '#b4552d'
   },
+  {
+    code: '04',
+    titre: t('accueil.etape4Titre'),
+    description: t('accueil.etape4Texte'),
+    icone: '📑',
+    couleur: '#7c3aed'
+  }
 ];
 
-// Logo ICERD depuis public/logo
+// Logo ICERD
 const LogoICERD = ({ size = 80 }) => {
   const [imageError, setImageError] = useState(false);
 
@@ -142,34 +149,13 @@ export default function Accueil() {
   return (
     <main style={{ background: 'var(--bg-pure)' }}>
       
-      {/* ===== HÉROS ULTIME ===== */}
+      {/* ===== HÉROS ===== */}
       <section className="trame-points" style={{
         padding: '80px 0 100px',
         borderBottom: '1px solid var(--border-color)',
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div style={{
-          position: 'absolute',
-          right: '-10%',
-          top: '-20%',
-          width: '600px',
-          height: '600px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(29,78,216,0.03) 0%, transparent 70%)',
-          pointerEvents: 'none'
-        }}></div>
-        <div style={{
-          position: 'absolute',
-          left: '-5%',
-          bottom: '-10%',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,107,53,0.03) 0%, transparent 70%)',
-          pointerEvents: 'none'
-        }}></div>
-
         <div className="conteneur" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{
             display: 'grid',
@@ -179,21 +165,7 @@ export default function Accueil() {
           }}>
             
             {/* TEXTE */}
-            <div style={{ position: 'relative' }}>
-              <div style={{
-                position: 'absolute',
-                top: '-60px',
-                left: '-60px',
-                right: '-60px',
-                bottom: '-60px',
-                background: 'radial-gradient(circle, rgba(29,78,216,0.05) 1.5px, transparent 1.5px)',
-                backgroundSize: '15px 15px',
-                borderRadius: '50%',
-                opacity: 0.6,
-                zIndex: -1,
-                pointerEvents: 'none'
-              }}></div>
-              
+            <div>
               <LogoICERD size={90} />
               
               <div style={{ marginTop: '32px' }}>
@@ -258,10 +230,7 @@ export default function Accueil() {
                 boxShadow: '0 20px 60px rgba(29, 78, 216, 0.10)',
                 transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 position: 'relative'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-4px)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-              >
+              }}>
                 <div style={{
                   position: 'absolute',
                   top: '-12px',
@@ -355,7 +324,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* ===== COMPTEURS AVEC VISUELS ===== */}
+      {/* ===== COMPTEURS ===== */}
       <section style={{
         padding: '40px 0',
         background: 'var(--bg-light)',
@@ -373,27 +342,15 @@ export default function Accueil() {
               { valeur: '20+', label: t('accueil.compteurRegionaux'), couleur: 'var(--orange-brand)', icone: '🌍' },
               { valeur: 'MINADER', label: t('accueil.partenaireDepuis'), couleur: 'var(--blue-brand)', icone: '🤝' }
             ].map((item, index) => (
-              <div 
-                key={index} 
-                className="compteur-item"
-                style={{ 
-                  textAlign: 'center', 
-                  padding: '16px',
-                  background: 'white',
-                  borderRadius: '12px',
-                  border: '1px solid var(--border-color)',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                  cursor: 'default'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.04)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
+              <div key={index} className="compteur-item" style={{ 
+                textAlign: 'center', 
+                padding: '16px',
+                background: 'white',
+                borderRadius: '12px',
+                border: '1px solid var(--border-color)',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                cursor: 'default'
+              }}>
                 <div style={{ fontSize: '32px', marginBottom: '4px' }}>{item.icone}</div>
                 <div style={{
                   fontSize: '32px',
@@ -413,7 +370,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* ===== DIVISIONS AVEC IMAGES ===== */}
+      {/* ===== DIVISIONS ===== */}
       <section className="section section--white" style={{ padding: '80px 0' }}>
         <div className="conteneur">
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
@@ -442,27 +399,23 @@ export default function Accueil() {
             gap: '30px'
           }}>
             {DIVISIONS.map((d, index) => (
-              <article 
-                key={d.code} 
-                className="carte-lab" 
-                style={{ 
-                  borderTop: `4px solid ${d.couleur}`,
-                  padding: '0',
-                  overflow: 'hidden',
-                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                  position: 'relative'
-                }}
-                onMouseEnter={(e) => {
-                  setHoveredDivision(index);
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.06)';
-                }}
-                onMouseLeave={(e) => {
-                  setHoveredDivision(null);
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-                }}
-              >
+              <article key={d.code} className="carte-lab" style={{ 
+                borderTop: `4px solid ${d.couleur}`,
+                padding: '0',
+                overflow: 'hidden',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                position: 'relative'
+              }}
+              onMouseEnter={(e) => {
+                setHoveredDivision(index);
+                e.currentTarget.style.transform = 'translateY(-8px)';
+                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.06)';
+              }}
+              onMouseLeave={(e) => {
+                setHoveredDivision(null);
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+              }}>
                 <div style={{
                   height: '200px',
                   background: `url(${d.image}) center/cover no-repeat`,
@@ -493,8 +446,7 @@ export default function Accueil() {
                       background: 'rgba(0,0,0,0.4)',
                       padding: '2px 12px',
                       borderRadius: '999px',
-                      backdropFilter: 'blur(4px)',
-                      WebkitBackdropFilter: 'blur(4px)'
+                      backdropFilter: 'blur(4px)'
                     }}>
                       {d.code}
                     </span>
@@ -502,12 +454,7 @@ export default function Accueil() {
                 </div>
 
                 <div style={{ padding: '24px 28px 28px' }}>
-                  <h3 style={{ 
-                    color: 'var(--blue-deep)', 
-                    fontSize: '20px', 
-                    marginBottom: '10px',
-                    fontWeight: 700
-                  }}>
+                  <h3 style={{ color: 'var(--blue-deep)', fontSize: '20px', marginBottom: '10px', fontWeight: 700 }}>
                     {d.titre}
                   </h3>
                   <p style={{ fontSize: '14.5px', color: 'var(--text-main)', lineHeight: 1.7 }}>
@@ -521,26 +468,18 @@ export default function Accueil() {
                     justifyContent: 'space-between',
                     alignItems: 'center'
                   }}>
-                    <span style={{
-                      fontSize: '12px',
-                      color: 'var(--text-muted)',
-                      fontWeight: 500
-                    }}>
+                    <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 500 }}>
                       📊 {d.stats}
                     </span>
-                    <Link 
-                      to="/analyses" 
-                      className="link-division-more"
-                      style={{
-                        fontSize: '13px',
-                        color: d.couleur,
-                        fontWeight: 600,
-                        textDecoration: 'none',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}
-                    >
+                    <Link to="/analyses" className="link-division-more" style={{
+                      fontSize: '13px',
+                      color: d.couleur,
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}>
                       {t('pages.enSavoirPlus')} →
                     </Link>
                   </div>
@@ -551,7 +490,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* ===== PARCOURS ===== */}
+      {/* ===== 4 ÉTAPES ===== */}
       <section className="section section--light" style={{ padding: '80px 0' }}>
         <div className="conteneur">
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
@@ -576,33 +515,29 @@ export default function Accueil() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '30px'
           }}>
             {ETAPES.map((etape, index) => (
-              <div 
-                key={etape.code} 
-                className="etape-card"
-                style={{
-                  background: 'white',
-                  padding: '32px 28px',
-                  borderRadius: '16px',
-                  border: '1px solid var(--border-color)',
-                  boxShadow: 'var(--shadow-sm)',
-                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                  position: 'relative'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-6px)';
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.05)';
-                  e.currentTarget.style.borderColor = etape.couleur;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-                  e.currentTarget.style.borderColor = 'var(--border-color)';
-                }}
-              >
+              <div key={etape.code} className="etape-card" style={{
+                background: 'white',
+                padding: '32px 28px',
+                borderRadius: '16px',
+                border: '1px solid var(--border-color)',
+                boxShadow: 'var(--shadow-sm)',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                position: 'relative'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-6px)';
+                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.05)';
+                e.currentTarget.style.borderColor = etape.couleur;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+                e.currentTarget.style.borderColor = 'var(--border-color)';
+              }}>
                 <div style={{
                   position: 'absolute',
                   top: '12px',
@@ -673,7 +608,7 @@ export default function Accueil() {
             ))}
           </div>
 
-          <div style={{ textTransform: 'none', textAlign: 'center', marginTop: '40px' }}>
+          <div style={{ textAlign: 'center', marginTop: '40px' }}>
             <Link to="/laboratoires" className="btn-lab btn-lab--outline" style={{ padding: '12px 32px' }}>
               🔬 {t('accueil.conseilCta')}
             </Link>
@@ -681,19 +616,8 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* ===== APPUI-CONSEIL ULTIME ===== */}
+      {/* ===== APPUI-CONSEIL ===== */}
       <section className="section section--white" style={{ padding: '80px 0', position: 'relative', overflow: 'hidden' }}>
-        <div style={{
-          position: 'absolute',
-          right: '-20%',
-          top: '-30%',
-          width: '600px',
-          height: '600px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(29,78,216,0.03) 0%, transparent 70%)',
-          pointerEvents: 'none'
-        }}></div>
-
         <div className="conteneur" style={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
           <div style={{
             display: 'inline-block',
@@ -758,20 +682,11 @@ export default function Accueil() {
           box-shadow: 0 8px 20px rgba(29, 78, 216, 0.15);
         }
 
-        .btn-lab:active {
-          transform: translateY(0);
-          filter: brightness(0.95);
-        }
-
         .carte-lab {
           background: #ffffff !important;
           border-radius: 16px !important;
           border: 1px solid rgba(0, 0, 0, 0.06) !important;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.01) !important;
-        }
-
-        .carte-lab:hover {
-          border-color: rgba(0, 0, 0, 0.03) !important;
         }
 
         .link-division-more {
@@ -791,11 +706,6 @@ export default function Accueil() {
           border: 1px solid rgba(0, 0, 0, 0.05) !important;
           border-radius: 14px !important;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
-        }
-
-        .carte-lab img, .carte-lab div:first-child {
-          border-top-left-radius: 12px;
-          border-top-right-radius: 12px;
         }
       `}</style>
     </main>
