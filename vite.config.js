@@ -5,6 +5,11 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   
+  // ✅ La cible du proxy doit toujours être l'URL du backend
+  const backendUrl = env.VITE_BACKEND_URL === '/api' 
+    ? 'http://localhost:4000' 
+    : env.VITE_BACKEND_URL || 'http://localhost:4000';
+  
   return {
     plugins: [react()],
     
@@ -13,16 +18,25 @@ export default defineConfig(({ mode }) => {
       host: true,
       proxy: {
         '/api': {
-          target: env.VITE_BACKEND_URL || 'http://localhost:4000',
+          target: backendUrl, // ✅ Toujours l'URL du backend
           changeOrigin: true,
           secure: false,
+          // Ajouter des logs pour le débogage
+          configure: (proxy) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              console.log('🔄 Proxy:', req.method, req.url, '→', proxyReq.path);
+            });
+            proxy.on('error', (err) => {
+              console.log('❌ Proxy Error:', err);
+            });
+          }
         }
       }
     },
     
     build: {
       outDir: 'dist',
-      sourcemap: false, // Mettre à false en production pour réduire la taille
+      sourcemap: false,
       rollupOptions: {
         output: {
           manualChunks: {

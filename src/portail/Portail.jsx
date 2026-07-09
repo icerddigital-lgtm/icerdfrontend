@@ -35,24 +35,51 @@ import { MesDemandes, MesRapports, MesFactures } from './EspaceClient.jsx';
 // Composants
 import Toast from '../components/Toast.jsx';
 
+// ============================================================
+// COMPOSANT DE CONNEXION
+// ============================================================
 function Connexion({ onConnecte }) {
   const [email, setEmail] = useState('');
   const [mdp, setMdp] = useState('');
   const [erreur, setErreur] = useState('');
   const [chargement, setChargement] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const connecter = async () => {
+  const connecter = async (e) => {
+    e.preventDefault();
     setErreur('');
     setChargement(true);
+
+    if (!email || !mdp) {
+      setErreur('Veuillez remplir tous les champs');
+      setChargement(false);
+      return;
+    }
+
     try {
-      const { token, utilisateur } = await api('/auth/connexion', {
+      const response = await api('/auth/connexion', {
         method: 'POST',
-        body: JSON.stringify({ email, mot_de_passe: mdp })
+        body: JSON.stringify({
+          email: email.trim(),
+          mot_de_passe: mdp
+        })
       });
-      jeton.ecrire(token);
-      onConnecte(utilisateur);
+
+      if (!response.token) {
+        throw new Error('Token non reçu');
+      }
+
+      jeton.ecrire(response.token);
+
+      if (response.utilisateur) {
+        sessionStorage.setItem('icerd_user', JSON.stringify(response.utilisateur));
+      }
+
+      onConnecte(response.utilisateur);
+
     } catch (e) {
-      setErreur(e.message);
+      console.error('❌ Erreur connexion:', e);
+      setErreur(e.message || 'Erreur de connexion. Vérifiez vos identifiants.');
     } finally {
       setChargement(false);
     }
@@ -131,51 +158,103 @@ function Connexion({ onConnecte }) {
             padding: '12px 16px',
             borderRadius: '8px',
             marginBottom: '16px',
-            fontSize: '14px'
+            fontSize: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
           }}>
-            ❌ {erreur}
+            <span>❌</span>
+            <span>{erreur}</span>
           </div>
         )}
 
-        <div className="champ-lab">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="admin@icerd.cm"
-            onKeyDown={e => e.key === 'Enter' && connecter()}
-          />
-        </div>
+        <form onSubmit={connecter}>
+          <div className="champ-lab">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="admin@icerd.cm"
+              autoFocus
+              disabled={chargement}
+              required
+            />
+          </div>
 
-        <div className="champ-lab">
-          <label>Mot de passe</label>
-          <input
-            type="password"
-            value={mdp}
-            onChange={e => setMdp(e.target.value)}
-            placeholder="••••••••"
-            onKeyDown={e => e.key === 'Enter' && connecter()}
-          />
-        </div>
+          <div className="champ-lab">
+            <label>Mot de passe</label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={mdp}
+                onChange={e => setMdp(e.target.value)}
+                placeholder="••••••••"
+                disabled={chargement}
+                required
+                style={{ width: '100%', paddingRight: '40px' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  color: '#94a3b8',
+                  padding: '4px'
+                }}
+              >
+                {showPassword ? '👁️' : '👁️‍🗨️'}
+              </button>
+            </div>
+          </div>
 
-        <button
-          className="btn-lab btn-lab--primary"
-          style={{ width: '100%', padding: '13px', fontSize: '15px', justifyContent: 'center' }}
-          onClick={connecter}
-          disabled={chargement}
-        >
-          {chargement ? 'Connexion...' : 'Se connecter'}
-        </button>
+          <button
+            type="submit"
+            className="btn-lab btn-lab--primary"
+            style={{ width: '100%', padding: '13px', fontSize: '15px', justifyContent: 'center' }}
+            disabled={chargement}
+          >
+            {chargement ? (
+              <>
+                <span style={{
+                  display: 'inline-block',
+                  width: '16px',
+                  height: '16px',
+                  border: '2px solid white',
+                  borderTopColor: 'transparent',
+                  borderRadius: '50%',
+                  animation: 'spin 0.8s linear infinite',
+                  marginRight: '8px'
+                }}></span>
+                Connexion...
+              </>
+            ) : (
+              '🔐 Se connecter'
+            )}
+          </button>
+        </form>
 
         <p style={{ marginTop: '18px', fontSize: '13px', color: '#94a3b8', textAlign: 'center' }}>
           <Link to="/" style={{ color: '#1d4ed8', fontWeight: 600 }}>← Retour au site public</Link>
         </p>
       </div>
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }
 
+// ============================================================
+// COMPOSANT PRINCIPAL PORTAIL
+// ============================================================
 export default function Portail() {
   const [utilisateur, setUtilisateur] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -184,12 +263,18 @@ export default function Portail() {
 
   useEffect(() => {
     const token = jeton.lire();
-    if (token) {
+    if (token && jeton.estValide()) {
       api('/auth/moi')
-        .then(u => setUtilisateur(u))
-        .catch(() => jeton.effacer())
+        .then(u => {
+          setUtilisateur(u);
+        })
+        .catch(() => {
+          jeton.effacer();
+          setUtilisateur(null);
+        })
         .finally(() => setLoading(false));
     } else {
+      jeton.effacer();
       setLoading(false);
     }
   }, []);
@@ -219,9 +304,6 @@ export default function Portail() {
           }}></div>
           <p style={{ color: '#64748b' }}>Chargement du portail...</p>
         </div>
-        <style>{`
-          @keyframes spin { to { transform: rotate(360deg); } }
-        `}</style>
       </div>
     );
   }
@@ -247,9 +329,8 @@ export default function Portail() {
     { path: '/portail/mes-factures', icon: '💰', label: 'Mes factures' },
   ];
 
-  // ✅ Menu complet pour le personnel
+  // Menu complet pour le personnel
   const menuItemsStaff = [
-    // Gestion principale
     { path: '/portail', icon: '📊', label: 'Tableau de bord' },
     { path: '/portail/clients', icon: '👥', label: 'Clients' },
     { path: '/portail/demandes', icon: '📋', label: 'Demandes' },
@@ -258,8 +339,6 @@ export default function Portail() {
     { path: '/portail/stocks', icon: '📦', label: 'Stocks' },
     { path: '/portail/factures', icon: '💰', label: 'Factures' },
     { path: '/portail/exports', icon: '⬇️', label: 'Exports' },
-    
-    // Gestion de contenu
     { path: '/portail/publications', icon: '📚', label: 'Publications' },
     { path: '/portail/projets', icon: '📋', label: 'Projets' },
     { path: '/portail/evenements', icon: '📅', label: 'Événements' },
@@ -269,28 +348,23 @@ export default function Portail() {
     { path: '/portail/galerie', icon: '🖼️', label: 'Galerie' },
     { path: '/portail/equipe', icon: '👥', label: 'Équipe' },
     { path: '/portail/faq', icon: '❓', label: 'FAQ' },
-    
-    // Banque de données
     { path: '/portail/banque-donnees', icon: '📊', label: 'Banque de données' },
-    
-    // Administration
     { path: '/portail/utilisateurs', icon: '👤', label: 'Utilisateurs' },
     { path: '/portail/equipements', icon: '🔬', label: 'Équipements' },
   ];
 
   const menuItems = estClient ? menuItemsClient : menuItemsStaff;
 
-  // Séparer les menus pour une meilleure organisation
-  const mainItems = menuItems.filter(item => 
+  const mainItems = menuItems.filter(item =>
     !['/portail/utilisateurs', '/portail/equipements'].includes(item.path)
   );
-  const adminItems = menuItems.filter(item => 
+  const adminItems = menuItems.filter(item =>
     ['/portail/utilisateurs', '/portail/equipements'].includes(item.path)
   );
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f4f7fc' }}>
-      
+
       {/* HEADER */}
       <header style={{
         background: 'white',
@@ -418,7 +492,7 @@ export default function Portail() {
 
       {/* LAYOUT AVEC SIDEBAR */}
       <div style={{ display: 'flex', flex: 1 }}>
-        
+
         {/* SIDEBAR */}
         <aside style={{
           width: '220px',
@@ -442,8 +516,7 @@ export default function Portail() {
           }}>
             {estClient ? 'Espace Client' : 'Gestion'}
           </div>
-          
-          {/* Menu principal */}
+
           {mainItems.map(item => {
             if ((item.path === '/portail/utilisateurs' || item.path === '/portail/equipements') && !isAdmin) return null;
             return (
@@ -451,6 +524,7 @@ export default function Portail() {
                 key={item.path}
                 to={item.path}
                 end={item.path === '/portail'}
+                className={({ isActive }) => isActive ? 'active' : ''}
                 style={({ isActive }) => ({
                   display: 'flex',
                   alignItems: 'center',
@@ -465,16 +539,6 @@ export default function Portail() {
                   transition: 'all 0.15s ease',
                   marginBottom: '2px'
                 })}
-                onMouseEnter={(e) => {
-                  if (!e.target.classList.contains('active')) {
-                    e.target.style.background = '#f1f5f9';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!e.target.classList.contains('active')) {
-                    e.target.style.background = 'transparent';
-                  }
-                }}
               >
                 <span style={{ fontSize: '18px' }}>{item.icon}</span>
                 {item.label}
@@ -482,7 +546,6 @@ export default function Portail() {
             );
           })}
 
-          {/* Administration (séparateur) */}
           {isAdmin && adminItems.length > 0 && (
             <>
               <div style={{
@@ -501,7 +564,6 @@ export default function Portail() {
                 <NavLink
                   key={item.path}
                   to={item.path}
-                  end={item.path === '/portail'}
                   style={({ isActive }) => ({
                     display: 'flex',
                     alignItems: 'center',
@@ -524,7 +586,6 @@ export default function Portail() {
             </>
           )}
 
-          {/* Lien site public */}
           <div style={{
             marginTop: 'auto',
             borderTop: '1px solid rgba(0,0,0,0.04)',
@@ -569,10 +630,7 @@ export default function Portail() {
               </>
             ) : (
               <>
-                {/* Tableau de bord */}
                 <Route index element={<TableauDeBord utilisateur={utilisateur} />} />
-                
-                {/* Gestion principale */}
                 <Route path="clients" element={<Clients showToast={showToast} />} />
                 <Route path="demandes" element={<Demandes showToast={showToast} />} />
                 <Route path="echantillons" element={<Echantillons showToast={showToast} />} />
@@ -580,8 +638,6 @@ export default function Portail() {
                 <Route path="stocks" element={<Stocks showToast={showToast} />} />
                 <Route path="factures" element={<Factures showToast={showToast} />} />
                 <Route path="exports" element={<Exports showToast={showToast} />} />
-                
-                {/* ✅ Gestion de contenu */}
                 <Route path="publications" element={<GestionPublications showToast={showToast} />} />
                 <Route path="projets" element={<GestionProjets showToast={showToast} />} />
                 <Route path="evenements" element={<GestionEvenements showToast={showToast} />} />
@@ -591,23 +647,16 @@ export default function Portail() {
                 <Route path="galerie" element={<GestionGalerie showToast={showToast} />} />
                 <Route path="equipe" element={<GestionEquipe showToast={showToast} />} />
                 <Route path="faq" element={<GestionFaq showToast={showToast} />} />
-                
-                {/* Banque de données */}
                 <Route path="banque-donnees" element={<BanqueDonnees showToast={showToast} />} />
-                
-                {/* Administration */}
                 <Route path="utilisateurs" element={isAdmin ? <Utilisateurs showToast={showToast} /> : <Navigate to="/portail" />} />
                 <Route path="equipements" element={isAdmin ? <Equipements showToast={showToast} /> : <Navigate to="/portail" />} />
               </>
             )}
-            
-            {/* Fallback */}
             <Route path="*" element={<Navigate to="/portail" replace />} />
           </Routes>
         </main>
       </div>
 
-      {/* TOAST */}
       {toast && <Toast message={toast.message} type={toast.type} />}
     </div>
   );
