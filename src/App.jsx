@@ -4,6 +4,32 @@ import { useState, useRef, useEffect } from 'react';
 import { useT } from './i18n/index.jsx';
 import SelecteurLangue from './components/SelecteurLangue.jsx';
 
+// ============================================================
+// REACT ICONS
+// ============================================================
+import { 
+  FaHome, 
+  FaUsers, 
+  FaFlask, 
+  FaBook, 
+  FaPhone,
+  FaUserCircle,
+  FaFolder,
+  FaHandshake,
+  FaBriefcase,
+  FaNewspaper,
+  FaCalendarAlt,
+  FaImages,
+  FaQuestionCircle,
+  FaLock,
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedin,
+  FaMapMarkerAlt,
+  FaEnvelope
+} from 'react-icons/fa';
+
 // Pages publiques existantes
 import Accueil from './pages/Accueil.jsx';
 import Apropos from './pages/Apropos.jsx';
@@ -28,6 +54,7 @@ import Portail from './portail/Portail.jsx';
 function Nav() {
   const { t } = useT();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -55,6 +82,7 @@ function Nav() {
     const handleEsc = (event) => {
       if (event.key === 'Escape') {
         setDropdownOpen(false);
+        setMobileMenuOpen(false);
       }
     };
     document.addEventListener('keydown', handleEsc);
@@ -73,14 +101,14 @@ function Nav() {
   ];
 
   const secondaryLinks = [
-    { path: '/equipe', label: `👥 ${t('nav.equipe')}` },
-    { path: '/projets', label: `📋 ${t('nav.projets')}` },
-    { path: '/partenaires', label: `🤝 ${t('nav.partenaires')}` },
-    { path: '/carrieres', label: `💼 ${t('nav.carrieres')}` },
-    { path: '/actualites', label: `📰 ${t('nav.actualites')}` },
-    { path: '/evenements', label: `📅 ${t('nav.evenements')}` },
-    { path: '/galerie', label: `🖼️ ${t('nav.galerie')}` },
-    { path: '/faq', label: `❓ ${t('nav.faq')}` }
+    { path: '/equipe', label: t('nav.equipe'), icon: FaUserCircle },
+    { path: '/projets', label: t('nav.projets'), icon: FaFolder },
+    { path: '/partenaires', label: t('nav.partenaires'), icon: FaHandshake },
+    { path: '/carrieres', label: t('nav.carrieres'), icon: FaBriefcase },
+    { path: '/actualites', label: t('nav.actualites'), icon: FaNewspaper },
+    { path: '/evenements', label: t('nav.evenements'), icon: FaCalendarAlt },
+    { path: '/galerie', label: t('nav.galerie'), icon: FaImages },
+    { path: '/faq', label: t('nav.faq'), icon: FaQuestionCircle }
   ];
 
   return (
@@ -184,7 +212,7 @@ function Nav() {
           </NavLink>
         ))}
 
-        {/* Dropdown "Plus" amélioré */}
+        {/* Dropdown "Plus" amélioré avec icônes */}
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <button
             ref={buttonRef}
@@ -249,39 +277,43 @@ function Nav() {
                 animation: 'fadeInDown 0.2s ease'
               }}
             >
-              {secondaryLinks.map(item => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setDropdownOpen(false)}
-                  style={({ isActive }) => ({
-                    padding: '8px 14px',
-                    borderRadius: '6px',
-                    textDecoration: 'none',
-                    fontSize: '13px',
-                    fontWeight: isActive ? 600 : 500,
-                    color: isActive ? '#1d4ed8' : '#475569',
-                    background: isActive ? '#e8edfd' : 'transparent',
-                    transition: 'all 0.15s ease',
-                    whiteSpace: 'nowrap',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  })}
-                  onMouseEnter={(e) => {
-                    if (!e.currentTarget.classList.contains('active')) {
-                      e.currentTarget.style.background = '#f1f5f9';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!e.currentTarget.classList.contains('active')) {
-                      e.currentTarget.style.background = 'transparent';
-                    }
-                  }}
-                >
-                  {item.label}
-                </NavLink>
-              ))}
+              {secondaryLinks.map(item => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setDropdownOpen(false)}
+                    style={({ isActive }) => ({
+                      padding: '8px 14px',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      fontSize: '13px',
+                      fontWeight: isActive ? 600 : 500,
+                      color: isActive ? '#1d4ed8' : '#475569',
+                      background: isActive ? '#e8edfd' : 'transparent',
+                      transition: 'all 0.15s ease',
+                      whiteSpace: 'nowrap',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
+                    })}
+                    onMouseEnter={(e) => {
+                      if (!e.currentTarget.classList.contains('active')) {
+                        e.currentTarget.style.background = '#f1f5f9';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!e.currentTarget.classList.contains('active')) {
+                        e.currentTarget.style.background = 'transparent';
+                      }
+                    }}
+                  >
+                    <Icon size={16} />
+                    {item.label}
+                  </NavLink>
+                );
+              })}
             </div>
           )}
         </div>
@@ -305,7 +337,10 @@ function Nav() {
             marginLeft: '4px',
             transition: 'all 0.2s ease',
             boxShadow: '0 2px 8px rgba(29, 78, 216, 0.25)',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-1px)';
@@ -316,7 +351,8 @@ function Nav() {
             e.currentTarget.style.boxShadow = '0 2px 8px rgba(29, 78, 216, 0.25)';
           }}
         >
-          🔐 {t('nav.portail')}
+          <FaLock size={16} />
+          {t('nav.portail')}
         </Link>
       </nav>
 
@@ -325,6 +361,31 @@ function Nav() {
         @keyframes fadeInDown {
           from { opacity: 0; transform: translateY(-8px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+          nav {
+            display: ${mobileMenuOpen ? 'flex' : 'none'} !important;
+            flex-direction: column !important;
+            position: absolute !important;
+            top: 72px !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: white !important;
+            padding: 16px 24px !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+            gap: 8px !important;
+            border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+          }
+          .dropdown-menu {
+            position: static !important;
+            box-shadow: none !important;
+            border: none !important;
+            padding: 8px 0 !important;
+            grid-template-columns: 1fr !important;
+          }
+          .dropdown-menu a {
+            padding: 8px 14px !important;
+          }
         }
       `}</style>
     </header>
@@ -376,10 +437,10 @@ function Pied() {
               {t('pied.description')}
             </p>
             <div style={{ marginTop: '12px', display: 'flex', gap: '12px' }}>
-              <a href="#" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '20px', textDecoration: 'none' }}>📘</a>
-              <a href="#" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '20px', textDecoration: 'none' }}>🐦</a>
-              <a href="#" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '20px', textDecoration: 'none' }}>📷</a>
-              <a href="#" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '20px', textDecoration: 'none' }}>💼</a>
+              <a href="#" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}><FaFacebook size={20} /></a>
+              <a href="#" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}><FaTwitter size={20} /></a>
+              <a href="#" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}><FaInstagram size={20} /></a>
+              <a href="#" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}><FaLinkedin size={20} /></a>
             </div>
           </div>
 
@@ -403,11 +464,11 @@ function Pied() {
               {t('pied.contactez')}
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
-              <li>📍 1, Rue 8417, Messamendongo</li>
-              <li>Yaoundé 4 — Cameroun</li>
+              <li><FaMapMarkerAlt size={14} style={{ display: 'inline', marginRight: '6px', color: '#93c5fd' }} />1, Rue 8417, Messamendongo</li>
+              <li style={{ paddingLeft: '24px' }}>Yaoundé 4 — Cameroun</li>
               <li>📞 +237 689 03 51 88</li>
               <li>📞 +237 671 87 94 94</li>
-              <li>✉️ <a href="mailto:icerdcameroon@gmail.com" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>icerdcameroon@gmail.com</a></li>
+              <li><FaEnvelope size={14} style={{ display: 'inline', marginRight: '6px', color: '#93c5fd' }} /><a href="mailto:icerdcameroon@gmail.com" style={lienStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>icerdcameroon@gmail.com</a></li>
             </ul>
           </div>
 
@@ -427,14 +488,17 @@ function Pied() {
                 background: 'rgba(255,255,255,0.1)',
                 padding: '6px 16px',
                 borderRadius: '6px',
-                display: 'inline-block',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
                 fontSize: '13px',
                 transition: 'background 0.2s ease'
               }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
               >
-                🔐 {t('nav.portail')}
+                <FaLock size={14} />
+                {t('nav.portail')}
               </Link>
             </div>
           </div>
