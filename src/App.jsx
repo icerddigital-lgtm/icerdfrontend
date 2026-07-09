@@ -27,7 +27,9 @@ import {
   FaInstagram,
   FaLinkedin,
   FaMapMarkerAlt,
-  FaEnvelope
+  FaEnvelope,
+  FaBars,
+  FaTimes
 } from 'react-icons/fa';
 
 // Pages publiques existantes
@@ -57,6 +59,7 @@ function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   // Fermer le dropdown quand on clique en dehors
   useEffect(() => {
@@ -68,6 +71,23 @@ function Nav() {
         !buttonRef.current.contains(event.target)
       ) {
         setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Fermer le menu mobile quand on clique en dehors
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        mobileMenuRef.current && 
+        !mobileMenuRef.current.contains(event.target)
+      ) {
+        setMobileMenuOpen(false);
       }
     };
 
@@ -91,6 +111,18 @@ function Nav() {
     };
   }, []);
 
+  // Empêcher le scroll quand le menu mobile est ouvert
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   const mainLinks = [
     { path: '/', label: t('nav.accueil') },
     { path: '/a-propos', label: t('nav.centre') },
@@ -110,6 +142,17 @@ function Nav() {
     { path: '/galerie', label: t('nav.galerie'), icon: FaImages },
     { path: '/faq', label: t('nav.faq'), icon: FaQuestionCircle }
   ];
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+    if (!mobileMenuOpen) {
+      setDropdownOpen(false);
+    }
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header style={{
@@ -184,19 +227,62 @@ function Nav() {
         </div>
       </Link>
 
-      {/* Navigation */}
-      <nav aria-label={t('nav.menuPrincipal')} style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '4px',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-end'
-      }}>
+      {/* Menu Burger pour mobile */}
+      <button
+        onClick={toggleMobileMenu}
+        aria-label={mobileMenuOpen ? t('nav.fermerMenu') : t('nav.ouvrirMenu')}
+        className="menu-burger-btn"
+        style={{
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: '8px',
+          fontSize: '24px',
+          color: '#0f2d80',
+          zIndex: 101,
+          display: 'block'
+        }}
+      >
+        {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+      </button>
+
+      {/* Navigation Desktop & Mobile overlay wrapper */}
+      {mobileMenuOpen && (
+        <div 
+          className="nav-overlay"
+          onClick={closeMobileMenu}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(15, 23, 42, 0.4)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 98,
+            transition: 'opacity 0.3s ease'
+          }}
+        />
+      )}
+
+      <nav 
+        ref={mobileMenuRef}
+        aria-label={t('nav.menuPrincipal')} 
+        className={`nav-desktop ${mobileMenuOpen ? 'nav-mobile-open' : ''}`}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-end'
+        }}
+      >
         {mainLinks.map(item => (
           <NavLink
             key={item.path}
             to={item.path}
             end={item.path === '/'}
+            onClick={closeMobileMenu}
             style={({ isActive }) => ({
               padding: '6px 14px',
               borderRadius: '8px',
@@ -283,7 +369,7 @@ function Nav() {
                   <NavLink
                     key={item.path}
                     to={item.path}
-                    onClick={() => setDropdownOpen(false)}
+                    onClick={() => { setDropdownOpen(false); closeMobileMenu(); }}
                     style={({ isActive }) => ({
                       padding: '8px 14px',
                       borderRadius: '6px',
@@ -319,13 +405,14 @@ function Nav() {
         </div>
 
         {/* Sélecteur de langue */}
-        <div style={{ marginLeft: '8px' }}>
+        <div style={{ marginLeft: '8px' }} className="lang-container">
           <SelecteurLangue />
         </div>
 
         {/* Portail LIMS */}
         <Link
           to="/portail"
+          onClick={closeMobileMenu}
           style={{
             padding: '6px 18px',
             borderRadius: '8px',
@@ -356,42 +443,156 @@ function Nav() {
         </Link>
       </nav>
 
-      {/* Animation CSS */}
+      {/* Styles CSS modifiés pour le menu mobile */}
       <style>{`
-        @keyframes fadeInDown {
-          from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
+        .menu-burger-btn {
+          display: none !important;
         }
-        @media (max-width: 768px) {
-          nav {
-            display: ${mobileMenuOpen ? 'flex' : 'none'} !important;
-            flex-direction: column !important;
-            position: absolute !important;
-            top: 72px !important;
-            left: 0 !important;
-            right: 0 !important;
-            background: white !important;
-            padding: 16px 24px !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
-            gap: 8px !important;
-            border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+
+        /* ✅ Desktop (> 1024px) */
+        @media (min-width: 1025px) {
+          .menu-burger-btn {
+            display: none !important;
           }
-          .dropdown-menu {
+          
+          .nav-desktop {
+            display: flex !important;
+            position: static !important;
+            background: transparent !important;
+            flex-direction: row !important;
+            padding: 0 !important;
+            transform: none !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+            height: auto !important;
+            width: auto !important;
+          }
+        }
+
+        /* ✅ Mobile & Tablet (<= 1024px) - Transformation en Tiroir Coulissant à droite */
+        @media (max-width: 1024px) {
+          .menu-burger-btn {
+            display: block !important;
+          }
+
+          .nav-desktop {
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 280px !important; /* Ajuste la largeur du menu ici */
+            height: 100vh !important;
+            background: white !important;
+            flex-direction: column !important;
+            padding: 80px 20px 24px !important;
+            gap: 4px !important;
+            justify-content: flex-start !important;
+            align-items: stretch !important;
+            
+            /* Effet de glissement par défaut masqué */
+            transform: translateX(100%) !important; 
+            visibility: hidden !important;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s !important;
+            z-index: 99 !important;
+            overflow-y: auto !important;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1) !important;
+            flex-wrap: nowrap !important;
+          }
+
+          /* Menu Ouvert */
+          .nav-mobile-open {
+            transform: translateX(0) !important;
+            visibility: visible !important;
+          }
+
+          .nav-desktop a,
+          .nav-desktop button:not(.menu-burger-btn) {
+            width: 100% !important;
+            justify-content: flex-start !important;
+            padding: 12px 14px !important;
+            font-size: 15px !important;
+            border-radius: 8px !important;
+            text-align: left !important;
+            border: 1px solid transparent !important;
+            box-sizing: border-box;
+          }
+
+          .nav-desktop a:hover {
+            background: #f1f5f9 !important;
+          }
+
+          /* Liste déroulante "Plus" en Mobile */
+          .nav-desktop .dropdown-menu {
             position: static !important;
             box-shadow: none !important;
             border: none !important;
-            padding: 8px 0 !important;
+            padding: 4px 0 4px 12px !important;
             grid-template-columns: 1fr !important;
+            animation: none !important;
+            background: #f8fafc !important;
+            width: 100% !important;
+            border-left: 2px solid #cbd5e1 !important;
+            border-radius: 0 8px 8px 0 !important;
+            margin-top: 4px;
           }
-          .dropdown-menu a {
-            padding: 8px 14px !important;
+
+          .nav-desktop .dropdown-menu a {
+            padding: 10px 14px !important;
+            font-size: 14px !important;
           }
+
+          .nav-desktop > div {
+            width: 100% !important;
+          }
+
+          .nav-desktop > div > button {
+            background: transparent !important;
+            border: 1px solid #e2e8f0 !important;
+            justify-content: space-between !important;
+          }
+
+          /* Alignement du Sélecteur de langue en mobile */
+          .nav-desktop .lang-container {
+            margin: 8px 0 !important;
+            padding: 0 !important;
+          }
+          .nav-desktop .lang-container * {
+            width: 100% !important;
+          }
+
+          /* Portail LIMS en mobile */
+          .nav-desktop a[href="/portail"] {
+            margin-top: 12px !important;
+            justify-content: center !important;
+            background: linear-gradient(135deg, #1d4ed8, #0f2d80) !important;
+            color: white !important;
+          }
+
+          /* On supprime le pseudo-élément "Fermer" car le bouton X suffit */
+          .nav-desktop::before {
+            display: none !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          header {
+            padding: 0 16px !important;
+          }
+          .nav-desktop {
+            width: 85% !important; /* Prend plus de place sur les très petits écrans */
+          }
+        }
+
+        @keyframes fadeInDown {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </header>
   );
 }
 
+// Le reste du code (Pied et App) reste exactement identique
 function Pied() {
   const { t } = useT();
   const lienStyle = {
@@ -537,22 +738,16 @@ function Pied() {
 export default function App() {
   return (
     <Routes>
-      {/* Route pour le portail (sans header/footer) */}
       <Route path="/portail/*" element={<Portail />} />
-      
-      {/* Route principale avec header/footer */}
       <Route path="*" element={
         <>
           <Nav />
           <Routes>
-            {/* Pages existantes */}
             <Route path="/" element={<Accueil />} />
             <Route path="/a-propos" element={<Apropos />} />
             <Route path="/laboratoires" element={<Laboratoires />} />
             <Route path="/analyses" element={<Analyses />} />
             <Route path="/contact" element={<Contact />} />
-            
-            {/* Nouvelles pages */}
             <Route path="/equipe" element={<Equipe />} />
             <Route path="/publications" element={<Publications />} />
             <Route path="/projets" element={<Projets />} />
