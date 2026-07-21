@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   
-  // ✅ La cible du proxy doit toujours être l'URL du backend
   const backendUrl = env.VITE_BACKEND_URL === '/api' 
     ? 'http://localhost:4000' 
     : env.VITE_BACKEND_URL || 'http://localhost:4000';
@@ -16,12 +15,22 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5173,
       host: true,
+      
+      // ✅ AJOUT : Désactiver complètement le HMR (solution de secours)
+      // hmr: false,
+      
+      // Ou avec configuration complète
+      hmr: {
+        protocol: 'ws',
+        host: '127.0.0.1',
+        port: 5173,
+      },
+      
       proxy: {
         '/api': {
-          target: backendUrl, // ✅ Toujours l'URL du backend
+          target: backendUrl,
           changeOrigin: true,
           secure: false,
-          // Ajouter des logs pour le débogage
           configure: (proxy) => {
             proxy.on('proxyReq', (proxyReq, req, res) => {
               console.log('🔄 Proxy:', req.method, req.url, '→', proxyReq.path);
